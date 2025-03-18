@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const words = ["Simplicity", "Elegance", "Clarity", "Precision", "Innovation"];
+const words = ["Hello", "Bonjour", "Ciao", "Olà", "やあ", "Hallå", "नमस्ते", "Hallo"];
 
 const Preloader = () => {
   const [index, setIndex] = useState(0);
@@ -28,8 +28,8 @@ const Preloader = () => {
     return () => clearTimeout(timeout);
   }, [index]);
 
-  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height + 300} 0 ${dimension.height}  L0 0`;
-  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height} 0 ${dimension.height}  L0 0`;
+  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height + 300} 0 ${dimension.height} L0 0`;
+  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height} 0 ${dimension.height} L0 0`;
 
   const curve = {
     initial: {
@@ -42,18 +42,18 @@ const Preloader = () => {
     }
   };
 
+  const slideUp = {
+    initial: { y: 0 },
+    exit: {
+      y: -dimension.height,
+      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }
+    }
+  };
+
   const opacity = {
     initial: { opacity: 0 },
     enter: { opacity: 1, transition: { duration: 0.5 } },
     exit: { opacity: 0, transition: { duration: 0.5 } }
-  };
-
-  const slideUp = {
-    initial: { y: 300 },
-    exit: {
-      y: -300,
-      transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1], delay: 0.3 }
-    }
   };
 
   return (
@@ -64,7 +64,6 @@ const Preloader = () => {
           initial="initial"
           exit="exit"
           className="fixed inset-0 bg-black text-white flex items-center justify-center z-50"
-          style={{ zIndex: 9999 }}
         >
           {dimension.width > 0 && (
             <>
@@ -72,12 +71,12 @@ const Preloader = () => {
                 variants={opacity}
                 initial="initial"
                 animate="enter"
-                className="text-4xl md:text-6xl lg:text-7xl font-light"
+                className="text-5xl md:text-7xl font-light flex items-center"
               >
-                <span className="inline-block mr-3 w-4 h-4 bg-white rounded-full"></span>
+                <span className="inline-block mr-4 w-3 h-3 bg-white rounded-full"></span>
                 {words[index]}
               </motion.p>
-              <svg className="fixed inset-0 h-full w-full pointer-events-none">
+              <svg className="absolute inset-0 w-full h-full">
                 <motion.path
                   fill="#000000"
                   variants={curve}

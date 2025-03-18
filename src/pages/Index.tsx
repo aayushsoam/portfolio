@@ -13,27 +13,26 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
+    // Allow the preloader animation to play
+    const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <>
       <Preloader />
       
-      <AnimatePresence>
-        {!isLoading && (
-          <main className="bg-white">
-            <Navbar />
-            <Hero />
-            <About />
-            <Projects />
-            <ProjectShowcase />
-            <Contact />
-          </main>
-        )}
-      </AnimatePresence>
+      <main className="bg-white">
+        <Navbar />
+        <Hero />
+        <About />
+        <Projects />
+        <ProjectShowcase />
+        <Contact />
+      </main>
     </>
   );
 };
