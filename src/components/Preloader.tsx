@@ -4,6 +4,27 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const words = ["Hello", "Bonjour", "Ciao", "Olà", "やあ", "Hallå", "नमस्ते", "Hallo"];
 
+// Animation variants
+const opacity = {
+  initial: {
+    opacity: 0
+  },
+  enter: {
+    opacity: 0.75,
+    transition: {duration: 1, delay: 0.2}
+  },
+};
+
+const slideUp = {
+  initial: {
+    top: 0
+  },
+  exit: {
+    top: "-100vh",
+    transition: {duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2}
+  }
+};
+
 const Preloader = () => {
   const [index, setIndex] = useState(0);
   const [dimension, setDimension] = useState({ width: 0, height: 0 });
@@ -34,26 +55,12 @@ const Preloader = () => {
   const curve = {
     initial: {
       d: initialPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] }
+      transition: {duration: 0.7, ease: [0.76, 0, 0.24, 1]}
     },
     exit: {
       d: targetPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.3 }
+      transition: {duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.3}
     }
-  };
-
-  const slideUp = {
-    initial: { y: 0 },
-    exit: {
-      y: -dimension.height,
-      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }
-    }
-  };
-
-  const opacity = {
-    initial: { opacity: 0 },
-    enter: { opacity: 1, transition: { duration: 0.5 } },
-    exit: { opacity: 0, transition: { duration: 0.5 } }
   };
 
   return (
@@ -63,7 +70,7 @@ const Preloader = () => {
           variants={slideUp}
           initial="initial"
           exit="exit"
-          className="fixed inset-0 bg-black text-white flex items-center justify-center z-50"
+          className="introduction fixed h-screen w-screen flex items-center justify-center z-[99] bg-[#141516]"
         >
           {dimension.width > 0 && (
             <>
@@ -71,14 +78,14 @@ const Preloader = () => {
                 variants={opacity}
                 initial="initial"
                 animate="enter"
-                className="text-5xl md:text-7xl font-light flex items-center"
+                className="flex text-white text-[42px] items-center absolute z-[1]"
               >
-                <span className="inline-block mr-4 w-3 h-3 bg-white rounded-full"></span>
+                <span className="block w-[10px] h-[10px] bg-white rounded-full mr-[10px]"></span>
                 {words[index]}
               </motion.p>
-              <svg className="absolute inset-0 w-full h-full">
+              <svg className="absolute top-0 w-full h-[calc(100%+300px)]">
                 <motion.path
-                  fill="#000000"
+                  fill="#141516"
                   variants={curve}
                   initial="initial"
                   exit="exit"
