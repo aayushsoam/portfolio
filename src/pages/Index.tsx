@@ -25,7 +25,7 @@ const Index = () => {
     <>
       <Preloader />
       
-      <main className="bg-white">
+      <main className="bg-[#141516]">
         <Navbar />
         <Hero />
         <About />

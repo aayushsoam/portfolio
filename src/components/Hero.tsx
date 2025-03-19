@@ -2,17 +2,16 @@
 import { useRef, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
-import TextReveal from './TextReveal';
-import FadeInWhenVisible from './FadeInWhenVisible';
 
 const Hero = () => {
   const firstText = useRef<HTMLParagraphElement | null>(null);
   const secondText = useRef<HTMLParagraphElement | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
+  let xPercent = 0;
+  let direction = -1;
   
   useLayoutEffect(() => {
-    let xPercent = 0;
-    let direction = -1;
+    gsap.registerPlugin(gsap.ScrollTrigger);
     
     // Horizontal scrolling animation
     gsap.to(sliderRef.current, {
@@ -62,7 +61,7 @@ const Hero = () => {
       transition: {
         duration: 0.6,
         ease: [0.33, 1, 0.68, 1],
-        delay: 0.2
+        delay: 2.5
       }
     }
   };
@@ -74,48 +73,32 @@ const Hero = () => {
       animate="animate"
       className="relative h-screen overflow-hidden"
     >
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white to-gray-50"></div>
+      <div 
+        className="absolute inset-0 w-full h-full z-0"
+        style={{
+          backgroundImage: `url('/images/background.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      />
       
-      {/* Background elements */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] -z-10">
-        <div className="absolute w-full h-full rounded-full border border-gray-100 animate-spin-slow opacity-40"></div>
-        <div className="absolute w-[90%] h-[90%] top-[5%] left-[5%] rounded-full border border-gray-200 animate-spin-slow opacity-40" style={{ animationDuration: '15s' }}></div>
-        <div className="absolute w-[80%] h-[80%] top-[10%] left-[10%] rounded-full border border-gray-300 animate-spin-slow opacity-40" style={{ animationDuration: '20s' }}></div>
-      </div>
-      
-      <div className="absolute top-[20%] left-[65%] w-16 h-16 bg-gray-50 rounded-full animate-float-slow"></div>
-      <div className="absolute top-[70%] left-[20%] w-24 h-24 bg-gray-50 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute top-[40%] left-[10%] w-12 h-12 bg-gray-50 rounded-full animate-float-slow" style={{ animationDelay: '2s' }}></div>
-      
-      {/* Main content */}
-      <div className="container mx-auto h-full flex flex-col justify-center items-center">
-        <FadeInWhenVisible delay={0.4} className="text-center mb-12">
-          <div className="text-sm text-gray-500 mb-1 tracking-wide">DESIGN WITH PURPOSE</div>
-          <TextReveal 
-            text="Simplicity is the ultimate sophistication"
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight"
-            delay={0.6}
-          />
-        </FadeInWhenVisible>
-      </div>
-      
-      {/* Sliding text */}
-      <div className="absolute bottom-[10vh] w-full overflow-hidden">
-        <div ref={sliderRef} className="whitespace-nowrap">
-          <p ref={firstText} className="relative m-0 text-[160px] md:text-[230px] font-light text-gray-100 inline-block px-10">
-            Minimalist Elegance —
+      <div className="absolute bottom-[100px] left-0 w-full">
+        <div ref={sliderRef} className="relative whitespace-nowrap">
+          <p ref={firstText} className="relative m-0 text-[160px] md:text-[230px] font-medium text-white inline-block pr-[50px]">
+            Aayush Soam —
           </p>
-          <p ref={secondText} className="absolute left-full top-0 m-0 text-[160px] md:text-[230px] font-light text-gray-100 inline-block px-10">
-            Minimalist Elegance —
+          <p ref={secondText} className="absolute left-[100%] top-0 m-0 text-[160px] md:text-[230px] font-medium text-white inline-block pr-[50px]">
+            Aayush Soam —
           </p>
         </div>
       </div>
       
-      {/* Arrow indicator */}
-      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 5L12 19M12 19L19 12M12 19L5 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <div className="absolute top-[35%] left-[65%] text-white text-2xl font-light">
+        <svg className="transform scale-[2] mb-[100px]" width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 8.5C8.27614 8.5 8.5 8.27614 8.5 8L8.5 3.5C8.5 3.22386 8.27614 3 8 3C7.72386 3 7.5 3.22386 7.5 3.5V7.5H3.5C3.22386 7.5 3 7.72386 3 8C3 8.27614 3.22386 8.5 3.5 8.5L8 8.5ZM0.646447 1.35355L7.64645 8.35355L8.35355 7.64645L1.35355 0.646447L0.646447 1.35355Z" fill="white"/>
         </svg>
+        <p className="m-0 mb-2.5">Freelance</p>
+        <p className="m-0 mb-2.5">Designer & Developer</p>
       </div>
     </motion.section>
   );
