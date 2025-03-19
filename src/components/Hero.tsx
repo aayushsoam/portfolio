@@ -2,6 +2,7 @@
 import { useRef, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 
 const Hero = () => {
   const firstText = useRef<HTMLParagraphElement | null>(null);
@@ -11,7 +12,7 @@ const Hero = () => {
   let direction = -1;
   
   useLayoutEffect(() => {
-    gsap.registerPlugin(gsap.ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger);
     
     // Horizontal scrolling animation
     gsap.to(sliderRef.current, {

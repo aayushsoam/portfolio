@@ -23,16 +23,18 @@ const Index = () => {
 
   return (
     <>
-      <Preloader />
-      
-      <main className="bg-[#141516]">
-        <Navbar />
-        <Hero />
-        <About />
-        <Projects />
-        <ProjectShowcase />
-        <Contact />
-      </main>
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <main className="bg-[#141516]">
+          <Navbar />
+          <Hero />
+          <About />
+          <Projects />
+          <ProjectShowcase />
+          <Contact />
+        </main>
+      )}
     </>
   );
 };
