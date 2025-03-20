@@ -1,11 +1,8 @@
-
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
-
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
@@ -13,24 +10,20 @@ const Navbar = () => {
         setScrolled(isScrolled);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [scrolled]);
-
-  return (
-    <header className="fixed top-0 left-0 w-full z-50 px-6 sm:px-12 md:px-16 py-6">
+  return <header className="fixed top-0 left-0 w-full z-50 px-6 sm:px-12 md:px-16 py-6">
       <AnimatePresence>
-        {scrolled && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-white/80 backdrop-blur-lg -z-10"
-          />
-        )}
+        {scrolled && <motion.div initial={{
+        opacity: 0
+      }} animate={{
+        opacity: 1
+      }} exit={{
+        opacity: 0
+      }} className="absolute inset-0 backdrop-blur-lg -z-10 bg-transparent" />}
       </AnimatePresence>
 
       <nav className="flex justify-between items-center max-w-7xl mx-auto">
@@ -77,8 +70,6 @@ const Navbar = () => {
           </button>
         </Magnetic>
       </nav>
-    </header>
-  );
+    </header>;
 };
-
 export default Navbar;
