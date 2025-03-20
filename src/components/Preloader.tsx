@@ -49,8 +49,9 @@ const Preloader = () => {
     return () => clearTimeout(timeout);
   }, [index]);
 
+  // Modified path with more pronounced curve at the bottom
   const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height + 300} 0 ${dimension.height} L0 0`;
-  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height} 0 ${dimension.height} L0 0`;
+  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height - 100} Q${dimension.width/2} ${dimension.height + 100} 0 ${dimension.height - 100} L0 0`;
 
   const curve = {
     initial: {
@@ -71,6 +72,10 @@ const Preloader = () => {
           initial="initial"
           exit="exit"
           className="introduction fixed h-screen w-screen flex items-center justify-center z-[99] bg-[#141516]"
+          style={{
+            borderBottomLeftRadius: "50%",
+            borderBottomRightRadius: "50%",
+          }}
         >
           {dimension.width > 0 && (
             <>

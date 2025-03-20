@@ -13,10 +13,11 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Allow the preloader animation to play
+    // Allow the preloader animation to play with a slightly longer duration
+    // to properly see the curved animation
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 3200);
     
     return () => clearTimeout(timer);
   }, []);
