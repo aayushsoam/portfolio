@@ -23,7 +23,7 @@ const Navbar = () => {
         opacity: 1
       }} exit={{
         opacity: 0
-      }} className="absolute inset-0 backdrop-blur-lg -z-10 bg-transparent" />}
+      }} className="absolute inset-0 backdrop-blur-lg -z-10 bg-white/0" />}
       </AnimatePresence>
 
       <nav className="flex justify-between items-center max-w-7xl mx-auto">
