@@ -37,7 +37,7 @@ const SlidingImages = () => {
   const x1 = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const x2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
   const height = useTransform(scrollYProgress, [0, 0.9], [50, 0]);
-  return <div ref={container} className="relative py-40 bg-slate-50">
+  return <div ref={container} className="relative py-40 bg-black">
       <div className="overflow-hidden">
         <motion.div style={{
         x: x1
@@ -69,7 +69,7 @@ const SlidingImages = () => {
       <motion.div style={{
       height
     }} className="relative mt-24">
-        <div className="absolute h-[1550%] w-[120%] left-[-10%] rounded-b-[50%] bg-white shadow-2xl">
+        <div className="absolute h-[1550%] w-[120%] left-[-10%] rounded-b-[50%] shadow-2xl bg-slate-50">
         </div>
       </motion.div>
     </div>;
