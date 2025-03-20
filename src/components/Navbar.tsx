@@ -1,18 +1,11 @@
-
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { 
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
-
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
@@ -25,18 +18,15 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [scrolled]);
-
-  return (
-    <header className="fixed top-0 left-0 w-full z-50 px-4 xs:px-6 sm:px-12 md:px-16 py-4 md:py-6">
+  return <header className="fixed top-0 left-0 w-full z-50 px-4 xs:px-6 sm:px-12 md:px-16 py-4 md:py-6">
       <AnimatePresence>
-        {scrolled && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }} 
-            className="absolute inset-0 backdrop-blur-lg -z-10 bg-white/0" 
-          />
-        )}
+        {scrolled && <motion.div initial={{
+        opacity: 0
+      }} animate={{
+        opacity: 1
+      }} exit={{
+        opacity: 0
+      }} className="absolute inset-0 backdrop-blur-lg -z-10 bg-white/0 rounded-full mx-[240px]" />}
       </AnimatePresence>
 
       <nav className="flex justify-between items-center max-w-7xl mx-auto">
@@ -79,8 +69,7 @@ const Navbar = () => {
         </ul>
 
         {/* Mobile Menu */}
-        {isMobile && (
-          <Sheet>
+        {isMobile && <Sheet>
             <SheetTrigger asChild>
               <button className="md:hidden z-50 p-2 flex flex-col items-center justify-center space-y-1.5">
                 <div className="w-6 h-0.5 bg-white"></div>
@@ -119,8 +108,7 @@ const Navbar = () => {
                 </Magnetic>
               </div>
             </SheetContent>
-          </Sheet>
-        )}
+          </Sheet>}
 
         <Magnetic>
           <button className="bg-white text-black py-2 px-5 rounded-full text-sm hidden md:block">
@@ -128,8 +116,6 @@ const Navbar = () => {
           </button>
         </Magnetic>
       </nav>
-    </header>
-  );
+    </header>;
 };
-
 export default Navbar;
