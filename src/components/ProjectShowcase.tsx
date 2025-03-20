@@ -1,10 +1,7 @@
-
 import SlidingImages from './SlidingImages';
 import FadeInWhenVisible from './FadeInWhenVisible';
-
 const ProjectShowcase = () => {
-  return (
-    <section className="py-32">
+  return <section className="py-32 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48">
         <FadeInWhenVisible>
           <div className="mb-24 text-center">
@@ -15,8 +12,6 @@ const ProjectShowcase = () => {
       </div>
       
       <SlidingImages />
-    </section>
-  );
+    </section>;
 };
-
 export default ProjectShowcase;
