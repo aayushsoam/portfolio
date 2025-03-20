@@ -37,7 +37,7 @@ const SlidingImages = () => {
   const x1 = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const x2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
   const height = useTransform(scrollYProgress, [0, 0.9], [50, 0]);
-  return <div ref={container} className="relative py-40 bg-black">
+  return <div ref={container} className="relative py-40 bg-slate-50">
       <div className="overflow-hidden">
         <motion.div style={{
         x: x1
