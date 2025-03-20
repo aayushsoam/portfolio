@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const words = ["Hello", "Bonjour", "Ciao", "Olà", "やあ", "Hallå", "नमस्ते", "Hallo"];
 
@@ -29,9 +30,19 @@ const Preloader = () => {
   const [index, setIndex] = useState(0);
   const [dimension, setDimension] = useState({ width: 0, height: 0 });
   const [isComplete, setIsComplete] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    setDimension({ width: window.innerWidth, height: window.innerHeight });
+    const updateDimension = () => {
+      setDimension({ width: window.innerWidth, height: window.innerHeight });
+    };
+    
+    updateDimension();
+    window.addEventListener('resize', updateDimension);
+    
+    return () => {
+      window.removeEventListener('resize', updateDimension);
+    };
   }, []);
 
   useEffect(() => {
@@ -50,7 +61,9 @@ const Preloader = () => {
   }, [index]);
 
   // Modified path with more pronounced curve at the bottom
-  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height + 300} 0 ${dimension.height} L0 0`;
+  // More dramatic curve for mobile
+  const curveHeight = isMobile ? 150 : 300;
+  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height + curveHeight} 0 ${dimension.height} L0 0`;
   const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height - 100} Q${dimension.width/2} ${dimension.height + 100} 0 ${dimension.height - 100} L0 0`;
 
   const curve = {
@@ -83,7 +96,7 @@ const Preloader = () => {
                 variants={opacity}
                 initial="initial"
                 animate="enter"
-                className="flex text-white text-[42px] items-center absolute z-[1]"
+                className="flex text-white text-2xl sm:text-3xl md:text-[42px] items-center absolute z-[1]"
               >
                 <span className="block w-[10px] h-[10px] bg-white rounded-full mr-[10px]"></span>
                 {words[index]}

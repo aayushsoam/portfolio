@@ -29,7 +29,7 @@ const Index = () => {
       </AnimatePresence>
       
       {!isLoading && (
-        <main className="bg-[#141516]">
+        <main className="bg-[#141516] w-full overflow-x-hidden">
           <Navbar />
           <Hero />
           <About />

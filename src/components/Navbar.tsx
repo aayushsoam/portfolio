@@ -3,10 +3,14 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { 
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -22,26 +26,28 @@ const Navbar = () => {
     };
   }, [scrolled]);
 
-  return <header className="fixed top-0 left-0 w-full z-50 px-6 sm:px-12 md:px-16 py-6">
+  return (
+    <header className="fixed top-0 left-0 w-full z-50 px-4 xs:px-6 sm:px-12 md:px-16 py-4 md:py-6">
       <AnimatePresence>
-        {scrolled && <motion.div initial={{
-        opacity: 0
-      }} animate={{
-        opacity: 1
-      }} exit={{
-        opacity: 0
-      }} className="absolute inset-0 backdrop-blur-lg -z-10 bg-white/0" />}
+        {scrolled && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            className="absolute inset-0 backdrop-blur-lg -z-10 bg-white/0" 
+          />
+        )}
       </AnimatePresence>
 
       <nav className="flex justify-between items-center max-w-7xl mx-auto">
         <Magnetic>
-          <a href="#" className="text-lg font-medium">
+          <a href="#" className="text-base xs:text-lg font-medium">
             Minimalist
           </a>
         </Magnetic>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center space-x-12">
+        <ul className="hidden md:flex items-center space-x-6 lg:space-x-12">
           <li>
             <Magnetic>
               <a href="#" className="text-sm hover:opacity-70 transition-opacity">
@@ -72,76 +78,58 @@ const Navbar = () => {
           </li>
         </ul>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu */}
         {isMobile && (
-          <button 
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden z-50 p-2"
-          >
-            <div className={`w-6 h-0.5 bg-black mb-1.5 transition-all ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}></div>
-            <div className={`w-6 h-0.5 bg-black mb-1.5 transition-all ${menuOpen ? 'opacity-0' : ''}`}></div>
-            <div className={`w-6 h-0.5 bg-black transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}></div>
-          </button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <button className="md:hidden z-50 p-2 flex flex-col items-center justify-center space-y-1.5">
+                <div className="w-6 h-0.5 bg-white"></div>
+                <div className="w-6 h-0.5 bg-white"></div>
+                <div className="w-6 h-0.5 bg-white"></div>
+              </button>
+            </SheetTrigger>
+            <SheetContent className="w-full sm:max-w-sm p-0 bg-[#141516] border-l-[#2a2a2a]">
+              <div className="flex flex-col h-full justify-center items-center">
+                <ul className="space-y-8 text-center">
+                  <li>
+                    <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
+                      Work
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
+                      About
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
+                      Services
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
+                      Contact
+                    </a>
+                  </li>
+                </ul>
+                <Magnetic>
+                  <button className="bg-white text-black py-2 px-5 rounded-full text-sm mt-10">
+                    Get in touch
+                  </button>
+                </Magnetic>
+              </div>
+            </SheetContent>
+          </Sheet>
         )}
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {menuOpen && isMobile && (
-            <motion.div
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center"
-            >
-              <ul className="space-y-8 text-center">
-                <li>
-                  <a 
-                    href="#" 
-                    className="text-xl font-medium"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Work
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="#" 
-                    className="text-xl font-medium"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="#" 
-                    className="text-xl font-medium"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Services
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="#" 
-                    className="text-xl font-medium"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         <Magnetic>
-          <button className="bg-black text-white py-2 px-5 rounded-full text-sm hidden md:block">
+          <button className="bg-white text-black py-2 px-5 rounded-full text-sm hidden md:block">
             Get in touch
           </button>
         </Magnetic>
       </nav>
-    </header>;
+    </header>
+  );
 };
+
 export default Navbar;
