@@ -1,5 +1,5 @@
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const Hero = () => {
@@ -128,16 +128,16 @@ const Hero = () => {
           ref={containerRef}
           className="flex whitespace-nowrap will-change-transform"
         >
-          <div className="marquee-item text-[80px] sm:text-[120px] md:text-[230px] font-medium text-white inline-block pr-[50px] md:pr-[100px] whitespace-nowrap opacity-90">
+          <div className="marquee-item text-[40px] xs:text-[60px] sm:text-[80px] md:text-[120px] lg:text-[180px] xl:text-[230px] font-medium text-white inline-block pr-[20px] xs:pr-[30px] sm:pr-[50px] md:pr-[80px] lg:pr-[100px] whitespace-nowrap opacity-90">
             AayushSoam- Freelance Designer & Developer.
           </div>
-          <div className="marquee-item text-[80px] sm:text-[120px] md:text-[230px] font-medium text-white inline-block pr-[50px] md:pr-[100px] whitespace-nowrap opacity-90">
+          <div className="marquee-item text-[40px] xs:text-[60px] sm:text-[80px] md:text-[120px] lg:text-[180px] xl:text-[230px] font-medium text-white inline-block pr-[20px] xs:pr-[30px] sm:pr-[50px] md:pr-[80px] lg:pr-[100px] whitespace-nowrap opacity-90">
             AayushSoam- Freelance Designer & Developer.
           </div>
-          <div className="marquee-item text-[80px] sm:text-[120px] md:text-[230px] font-medium text-white inline-block pr-[50px] md:pr-[100px] whitespace-nowrap opacity-90">
+          <div className="marquee-item text-[40px] xs:text-[60px] sm:text-[80px] md:text-[120px] lg:text-[180px] xl:text-[230px] font-medium text-white inline-block pr-[20px] xs:pr-[30px] sm:pr-[50px] md:pr-[80px] lg:pr-[100px] whitespace-nowrap opacity-90">
             AayushSoam- Freelance Designer & Developer.
           </div>
-          <div className="marquee-item text-[80px] sm:text-[120px] md:text-[230px] font-medium text-white inline-block pr-[50px] md:pr-[100px] whitespace-nowrap opacity-90">
+          <div className="marquee-item text-[40px] xs:text-[60px] sm:text-[80px] md:text-[120px] lg:text-[180px] xl:text-[230px] font-medium text-white inline-block pr-[20px] xs:pr-[30px] sm:pr-[50px] md:pr-[80px] lg:pr-[100px] whitespace-nowrap opacity-90">
             AayushSoam- Freelance Designer & Developer.
           </div>
         </div>
@@ -147,10 +147,10 @@ const Hero = () => {
       <div
         data-scroll
         data-scroll-speed={0.1}
-        className="absolute top-[35%] left-[75%] text-white text-2xl font-light z-10"
+        className="absolute top-[20%] sm:top-[25%] md:top-[30%] lg:top-[35%] left-[10%] sm:left-[25%] md:left-[50%] lg:left-[75%] text-white text-base sm:text-xl md:text-2xl font-light z-10"
       >
         <svg
-          className="transform scale-[2] mb-[100px]"
+          className="transform scale-100 sm:scale-125 md:scale-150 lg:scale-[2] mb-[30px] sm:mb-[50px] md:mb-[75px] lg:mb-[100px]"
           width="9"
           height="9"
           viewBox="0 0 9 9"
