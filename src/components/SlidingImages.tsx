@@ -69,7 +69,7 @@ const SlidingImages = () => {
       <motion.div style={{
       height
     }} className="relative mt-24">
-        <div className="absolute h-[1550%] w-[120%] left-[-10%] rounded-b-[50%] shadow-2xl bg-slate-50">
+        <div className="absolute h-[1550%] w-[100%] left-[0%] rounded-b-[50%] shadow-2xl my-[160px] bg-black">
         </div>
       </motion.div>
     </div>;
