@@ -33,7 +33,7 @@ const About = () => {
           <FadeInWhenVisible delay={0.8}>
             <div className="relative">
               <div className="w-60 h-60 rounded-3xl overflow-hidden">
-                <img src="/placeholder.svg" alt="Designer" className="w-full h-full object-cover" />
+                <img alt="Designer" className="w-full h-full object-cover" src="/lovable-uploads/25faa88e-62a5-43b8-bc2c-4d2d33a2bf45.jpg" />
               </div>
               
               <div className="absolute -bottom-8 -right-8">
