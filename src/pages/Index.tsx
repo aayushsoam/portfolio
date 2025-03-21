@@ -17,14 +17,12 @@ const Index = () => {
     // Allow the preloader animation to play with a slightly longer duration
     // to properly see all the default words animation
     const timer = setTimeout(() => {
-      // Don't immediately set isLoading to false to avoid abrupt transition
-      // Instead, trigger content appearance first for a smoother overlap
-      setShowContent(true);
+      setIsLoading(false);
       
-      // Then after a small delay, remove the preloader
+      // Add a slight delay before showing content for a smooth transition
       setTimeout(() => {
-        setIsLoading(false);
-      }, 800);
+        setShowContent(true);
+      }, 300);
     }, 3500);
     
     return () => clearTimeout(timer);
@@ -41,7 +39,7 @@ const Index = () => {
         initial={{ opacity: 0 }}
         animate={{ 
           opacity: showContent ? 1 : 0,
-          transition: { duration: 1.2, ease: [0.43, 0.13, 0.23, 0.96] }
+          transition: { duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }
         }}
       >
         <Navbar />
