@@ -99,17 +99,29 @@ const Navbar = () => {
           </li>
           <li className="relative">
             <Magnetic>
-              <a href="#" className={`text-sm ${textColor} hover:opacity-70 transition-all duration-300`}>
+              <button 
+                onClick={() => handleNavigation('/services')} 
+                className={`text-sm ${textColor} hover:opacity-70 transition-all duration-300`}
+              >
                 Services
-              </a>
+              </button>
             </Magnetic>
+            {currentPath === '/services' && (
+              <div className={`absolute h-1 w-1 ${indicatorColor} rounded-full mx-auto left-0 right-0 bottom-[-8px]`}></div>
+            )}
           </li>
           <li className="relative">
             <Magnetic>
-              <a href="#" className={`text-sm ${textColor} hover:opacity-70 transition-all duration-300`}>
+              <button 
+                onClick={() => handleNavigation('/contact')} 
+                className={`text-sm ${textColor} hover:opacity-70 transition-all duration-300`}
+              >
                 Contact
-              </a>
+              </button>
             </Magnetic>
+            {currentPath === '/contact' && (
+              <div className={`absolute h-1 w-1 ${indicatorColor} rounded-full mx-auto left-0 right-0 bottom-[-8px]`}></div>
+            )}
           </li>
         </ul>
 
@@ -148,19 +160,33 @@ const Navbar = () => {
                       <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
                     )}
                   </li>
-                  <li>
-                    <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
+                  <li className="relative">
+                    <button 
+                      onClick={() => handleNavigation('/services')} 
+                      className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
+                    >
                       Services
-                    </a>
+                    </button>
+                    {currentPath === '/services' && (
+                      <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
+                    )}
                   </li>
-                  <li>
-                    <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
+                  <li className="relative">
+                    <button 
+                      onClick={() => handleNavigation('/contact')} 
+                      className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
+                    >
                       Contact
-                    </a>
+                    </button>
+                    {currentPath === '/contact' && (
+                      <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
+                    )}
                   </li>
                 </ul>
                 <Magnetic>
-                  <button className="bg-white text-black py-2 px-5 rounded-full text-sm mt-10">
+                  <button 
+                    onClick={() => handleNavigation('/contact')} 
+                    className="bg-white text-black py-2 px-5 rounded-full text-sm mt-10">
                     Get in touch
                   </button>
                 </Magnetic>
@@ -170,7 +196,9 @@ const Navbar = () => {
         )}
 
         <Magnetic>
-          <button className={`${buttonBgColor} ${buttonTextColor} py-2 px-5 rounded-full text-sm hidden md:block transition-colors duration-300`}>
+          <button 
+            onClick={() => handleNavigation('/contact')} 
+            className={`${buttonBgColor} ${buttonTextColor} py-2 px-5 rounded-full text-sm hidden md:block transition-colors duration-300`}>
             Get in touch
           </button>
         </Magnetic>
