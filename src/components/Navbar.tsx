@@ -4,12 +4,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +51,7 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex items-center space-x-6 lg:space-x-12">
-          <li>
+          <li className="relative">
             <Magnetic>
               <button 
                 onClick={() => handleNavigation('/work')} 
@@ -58,8 +60,11 @@ const Navbar = () => {
                 Work
               </button>
             </Magnetic>
+            {currentPath === '/work' && (
+              <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
+            )}
           </li>
-          <li>
+          <li className="relative">
             <Magnetic>
               <button 
                 onClick={() => handleNavigation('/about')} 
@@ -68,15 +73,18 @@ const Navbar = () => {
                 About
               </button>
             </Magnetic>
+            {currentPath === '/about' && (
+              <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
+            )}
           </li>
-          <li>
+          <li className="relative">
             <Magnetic>
               <a href="#" className="text-sm hover:opacity-70 transition-opacity">
                 Services
               </a>
             </Magnetic>
           </li>
-          <li>
+          <li className="relative">
             <Magnetic>
               <a href="#" className="text-sm hover:opacity-70 transition-opacity">
                 Contact
@@ -97,21 +105,27 @@ const Navbar = () => {
             <SheetContent className="w-full sm:max-w-sm p-0 bg-[#141516] border-l-[#2a2a2a]">
               <div className="flex flex-col h-full justify-center items-center">
                 <ul className="space-y-8 text-center">
-                  <li>
+                  <li className="relative">
                     <button 
                       onClick={() => handleNavigation('/work')} 
                       className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
                     >
                       Work
                     </button>
+                    {currentPath === '/work' && (
+                      <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
+                    )}
                   </li>
-                  <li>
+                  <li className="relative">
                     <button 
                       onClick={() => handleNavigation('/about')} 
                       className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
                     >
                       About
                     </button>
+                    {currentPath === '/about' && (
+                      <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
+                    )}
                   </li>
                   <li>
                     <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
