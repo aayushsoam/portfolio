@@ -61,9 +61,12 @@ const Navbar = () => {
           </li>
           <li>
             <Magnetic>
-              <a href="#" className="text-sm hover:opacity-70 transition-opacity">
+              <button 
+                onClick={() => handleNavigation('/about')} 
+                className="text-sm hover:opacity-70 transition-opacity"
+              >
                 About
-              </a>
+              </button>
             </Magnetic>
           </li>
           <li>
@@ -103,9 +106,12 @@ const Navbar = () => {
                     </button>
                   </li>
                   <li>
-                    <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
+                    <button 
+                      onClick={() => handleNavigation('/about')} 
+                      className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
+                    >
                       About
-                    </a>
+                    </button>
                   </li>
                   <li>
                     <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">

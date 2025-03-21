@@ -14,6 +14,11 @@ const About = () => {
   
   const phrase = "Helping brands to stand out in the digital era. Together we will set the new status quo. No nonsense, always on the cutting edge.";
   
+  const handleNavigation = (path: string) => {
+    // When navigation is triggered, reload the page to show the loader
+    window.location.href = path;
+  };
+  
   return (
     <section 
       ref={descriptionRef} 
@@ -48,13 +53,19 @@ const About = () => {
               </div>
               
               <div className="absolute -bottom-8 -right-8 hidden sm:block">
-                <AnimatedButton backgroundColor="#000000">
+                <AnimatedButton 
+                  backgroundColor="#000000"
+                  onClick={() => handleNavigation('/about')}
+                >
                   <span className="text-white">About me</span>
                 </AnimatedButton>
               </div>
               
               <div className="mt-6 text-center md:hidden">
-                <AnimatedButton backgroundColor="#000000">
+                <AnimatedButton 
+                  backgroundColor="#000000"
+                  onClick={() => handleNavigation('/about')}
+                >
                   <span className="text-white">About me</span>
                 </AnimatedButton>
               </div>
