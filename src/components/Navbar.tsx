@@ -1,11 +1,9 @@
-
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -176,7 +174,7 @@ const Navbar = () => {
                 <div className={`w-6 h-0.5 ${indicatorColor} transition-colors duration-300`}></div>
               </button>
             </SheetTrigger>
-            <SheetContent className="w-full sm:max-w-sm p-0 bg-[#141516] border-l-[#2a2a2a]">
+            <SheetContent side="right" className="w-full sm:max-w-sm p-0 bg-[#141516] border-l-[#2a2a2a]">
               <div className="flex flex-col h-full justify-center items-center">
                 <ul className="space-y-8 text-center">
                   <li className="relative">
