@@ -288,3 +288,44 @@
   border-radius: 50%;
   margin-right: 10px;
 }
+
+/* Burger menu styles */
+.burger::after, .burger::before {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 40%;
+  margin: auto;
+  background-color: white;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.burger::after {
+  top: -5px;
+}
+
+.burger::before {
+  top: 5px;
+}
+
+.burger-active::after, .burger-active::before {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 40%;
+  margin: auto;
+  background-color: white;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.burger-active::after {
+  transform: rotate(45deg);
+  top: -1px;
+}
+
+.burger-active::before {
+  transform: rotate(-45deg);
+  top: 0px;
+}
