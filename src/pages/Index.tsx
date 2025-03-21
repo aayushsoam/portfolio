@@ -14,10 +14,10 @@ const Index = () => {
 
   useEffect(() => {
     // Allow the preloader animation to play with a slightly longer duration
-    // to properly see the curved animation
+    // to properly see all the default words animation
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3200);
+    }, 3500);
     
     return () => clearTimeout(timer);
   }, []);

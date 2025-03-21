@@ -33,6 +33,7 @@ const Preloader = () => {
   const isWorkPage = location.pathname === "/work";
   const isAboutPage = location.pathname === "/about";
   const isContactPage = location.pathname === "/contact";
+  const isHomePage = location.pathname === "/";
   
   // Use different words based on the current page
   let words = defaultWords;
