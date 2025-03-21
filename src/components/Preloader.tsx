@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -24,7 +23,7 @@ const slideUp = {
   },
   exit: {
     top: "-100vh",
-    transition: {duration: 1.2, ease: [0.43, 0.13, 0.23, 0.96], delay: 0.1}
+    transition: {duration: 1, ease: [0.43, 0.13, 0.23, 0.96], delay: 0.2}
   }
 };
 
@@ -91,7 +90,7 @@ const Preloader = () => {
     },
     exit: {
       d: targetPath,
-      transition: {duration: 1.4, ease: [0.43, 0.13, 0.23, 0.96], delay: 0.2}
+      transition: {duration: 1.2, ease: [0.43, 0.13, 0.23, 0.96], delay: 0.3}
     }
   };
 
