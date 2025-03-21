@@ -4,33 +4,38 @@ import gsap from 'gsap';
 import AnimatedButton from './AnimatedButton';
 import Magnetic from './Magnetic';
 import FadeInWhenVisible from './FadeInWhenVisible';
+
 interface Project {
   title: string;
   category: string;
   src: string;
   color: string;
 }
-const projects: Project[] = [{
-  title: "Harmony",
-  category: "Interface Design",
-  src: "/placeholder.svg",
-  color: "#F9F5F0"
-}, {
-  title: "Serenity",
-  category: "Design & Development",
-  src: "/placeholder.svg",
-  color: "#F5F5F5"
-}, {
-  title: "Essence",
-  category: "Product Design",
-  src: "/placeholder.svg",
-  color: "#F0F0F0"
-}, {
-  title: "Balance",
-  category: "Visual Identity",
-  src: "/placeholder.svg",
-  color: "#EAEAEA"
-}];
+
+const projects: Project[] = [
+  {
+    title: "Harmony",
+    category: "Interface Design",
+    src: "/placeholder.svg",
+    color: "#F9F5F0"
+  }, {
+    title: "Serenity",
+    category: "Design & Development",
+    src: "/placeholder.svg",
+    color: "#F5F5F5"
+  }, {
+    title: "Essence",
+    category: "Product Design",
+    src: "/placeholder.svg",
+    color: "#F0F0F0"
+  }, {
+    title: "Balance",
+    category: "Visual Identity",
+    src: "/placeholder.svg",
+    color: "#EAEAEA"
+  }
+];
+
 const scaleAnimation = {
   initial: {
     scale: 0,
@@ -56,15 +61,14 @@ const scaleAnimation = {
     }
   }
 };
+
 const Projects = () => {
   const [modal, setModal] = useState({
     active: false,
     index: 0
   });
-  const {
-    active,
-    index
-  } = modal;
+
+  const { active, index } = modal;
   const modalContainer = useRef<HTMLDivElement>(null);
   const cursor = useRef<HTMLDivElement>(null);
   const cursorLabel = useRef<HTMLDivElement>(null);
@@ -74,10 +78,9 @@ const Projects = () => {
   const yMoveCursor = useRef<gsap.QuickToFunc | null>(null);
   const xMoveCursorLabel = useRef<gsap.QuickToFunc | null>(null);
   const yMoveCursorLabel = useRef<gsap.QuickToFunc | null>(null);
+
   useEffect(() => {
-    // Initialize GSAP animations
     if (modalContainer.current && cursor.current && cursorLabel.current) {
-      // Move modal container
       xMoveContainer.current = gsap.quickTo(modalContainer.current, "left", {
         duration: 0.8,
         ease: "power3"
@@ -87,7 +90,6 @@ const Projects = () => {
         ease: "power3"
       });
 
-      // Move cursor
       xMoveCursor.current = gsap.quickTo(cursor.current, "left", {
         duration: 0.5,
         ease: "power3"
@@ -97,7 +99,6 @@ const Projects = () => {
         ease: "power3"
       });
 
-      // Move cursor label
       xMoveCursorLabel.current = gsap.quickTo(cursorLabel.current, "left", {
         duration: 0.45,
         ease: "power3"
@@ -108,6 +109,7 @@ const Projects = () => {
       });
     }
   }, []);
+
   const moveItems = (x: number, y: number) => {
     if (xMoveContainer.current && yMoveContainer.current && xMoveCursor.current && yMoveCursor.current && xMoveCursorLabel.current && yMoveCursorLabel.current) {
       xMoveContainer.current(x);
@@ -118,6 +120,7 @@ const Projects = () => {
       yMoveCursorLabel.current(y);
     }
   };
+
   const manageModal = (active: boolean, index: number, x: number, y: number) => {
     moveItems(x, y);
     setModal({
@@ -125,6 +128,11 @@ const Projects = () => {
       index
     });
   };
+
+  const handleMoreWorkClick = () => {
+    window.location.href = '/work';
+  };
+
   return <section onMouseMove={e => moveItems(e.clientX, e.clientY)} className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50">
       <FadeInWhenVisible>
         <div className="max-w-7xl mx-auto">
@@ -145,14 +153,13 @@ const Projects = () => {
           </div>
           
           <div className="mt-20 flex justify-center">
-            <AnimatedButton>
+            <AnimatedButton onClick={handleMoreWorkClick}>
               <span>More work</span>
             </AnimatedButton>
           </div>
         </div>
       </FadeInWhenVisible>
       
-      {/* Image preview on hover */}
       <motion.div ref={modalContainer} variants={scaleAnimation} initial="initial" animate={active ? "enter" : "closed"} className="fixed h-[350px] w-[400px] bg-white pointer-events-none overflow-hidden rounded-2xl z-50">
         <div style={{
         top: `calc(${index} * -100%)`
@@ -174,4 +181,5 @@ const Projects = () => {
       </motion.div>
     </section>;
 };
+
 export default Projects;

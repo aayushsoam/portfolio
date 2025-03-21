@@ -1,11 +1,16 @@
+
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Link, useNavigate } from 'react-router-dom';
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
@@ -18,6 +23,12 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [scrolled]);
+
+  const handleNavigation = (path: string) => {
+    // When navigation is triggered, reload the page to show the loader
+    window.location.href = path;
+  };
+
   return <header className="fixed top-0 left-0 w-full z-50 px-4 xs:px-6 sm:px-12 md:px-16 py-4 md:py-6">
       <AnimatePresence>
         {scrolled && <motion.div initial={{
@@ -31,18 +42,21 @@ const Navbar = () => {
 
       <nav className="flex justify-between items-center max-w-7xl mx-auto">
         <Magnetic>
-          <a href="#" className="text-base xs:text-lg font-medium">
+          <Link to="/" className="text-base xs:text-lg font-medium">
             Minimalist
-          </a>
+          </Link>
         </Magnetic>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex items-center space-x-6 lg:space-x-12">
           <li>
             <Magnetic>
-              <a href="#" className="text-sm hover:opacity-70 transition-opacity">
+              <button 
+                onClick={() => handleNavigation('/work')} 
+                className="text-sm hover:opacity-70 transition-opacity"
+              >
                 Work
-              </a>
+              </button>
             </Magnetic>
           </li>
           <li>
@@ -81,9 +95,12 @@ const Navbar = () => {
               <div className="flex flex-col h-full justify-center items-center">
                 <ul className="space-y-8 text-center">
                   <li>
-                    <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
+                    <button 
+                      onClick={() => handleNavigation('/work')} 
+                      className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
+                    >
                       Work
-                    </a>
+                    </button>
                   </li>
                   <li>
                     <a href="#" className="text-xl font-medium text-white hover:text-gray-300 transition-colors">
