@@ -7,7 +7,6 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/h
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Code, Figma, FileType, Wind, Braces, LayoutTemplate, FileCode, Zap } from "lucide-react";
-
 const skillCategories = [{
   title: "Development",
   skills: ["React", "Next.js", "TypeScript", "Node.js", "Tailwind CSS", "Three.js", "WebGL"]
@@ -18,7 +17,6 @@ const skillCategories = [{
   title: "Other",
   skills: ["Project Management", "SEO", "Performance Optimization", "Responsive Design", "Git"]
 }];
-
 const experiences = [{
   company: "Design Studio",
   position: "Senior Developer",
@@ -35,7 +33,6 @@ const experiences = [{
   period: "2016 - 2018",
   description: "Designed user interfaces and created wireframes and prototypes for mobile and web applications."
 }];
-
 const skillsData = [{
   name: "Figma",
   icon: <Figma className="w-6 h-6" />,
@@ -85,7 +82,6 @@ const skillsData = [{
   percentage: 88,
   projects: ["E-commerce", "Blog", "Corporate Site"]
 }];
-
 const scaleAnimation = {
   initial: {
     scale: 0.8,
@@ -106,7 +102,6 @@ const scaleAnimation = {
     }
   }
 };
-
 const Skills = () => {
   const container = useRef<HTMLElement>(null);
   const {
@@ -115,14 +110,12 @@ const Skills = () => {
     target: container,
     offset: ["start end", "end end"]
   });
-  
   const y = useTransform(scrollYProgress, [0, 1], [-100, 0]);
   const height = useTransform(scrollYProgress, [0, 0.9], [50, 0]);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
-  
   return <motion.section ref={container} style={{
     y
-  }} className="py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50 lg:py-[240px]">
+  }} className="py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-24 xl:px-48 bg-slate-50 rounded-b-[20%] shadow-[0px_60px_50px_rgba(0,0,0,0.748)] z-[1] bg-white w-[120%] left-[-10%] lg:py-[152px] lg:px-[177px]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
           <div>
@@ -217,7 +210,9 @@ const Skills = () => {
               </FadeInWhenVisible>)}
           </div>
           
-          <motion.div style={{ height }} className="relative mt-24">
+          <motion.div style={{
+          height
+        }} className="relative mt-24">
             <div className="absolute h-[1550%] w-[120%] left-[-10%] rounded-b-[50%] shadow-[0px_60px_50px_rgba(0,0,0,0.748)] z-[1] bg-white">
             </div>
           </motion.div>
@@ -225,5 +220,4 @@ const Skills = () => {
       </div>
     </motion.section>;
 };
-
 export default Skills;
