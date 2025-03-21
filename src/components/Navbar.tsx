@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
@@ -36,9 +37,15 @@ const Navbar = () => {
     };
   }, [scrolled]);
 
+  // Modified to reload only for the Work page
   const handleNavigation = (path: string) => {
-    // When navigation is triggered, reload the page to show the loader
-    window.location.href = path;
+    if (path === '/work') {
+      // When navigation is to Work page, reload to show the loader
+      window.location.href = path;
+    } else {
+      // For other pages, use standard navigation
+      navigate(path);
+    }
   };
 
   // Dynamic text and indicator colors based on background

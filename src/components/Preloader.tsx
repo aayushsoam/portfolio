@@ -2,8 +2,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useLocation } from "react-router-dom";
 
-const words = ["Hello", "Bonjour", "Ciao", "Olà", "やあ", "Hallå", "नमस्ते", "Hallo"];
+// Default words for homepage
+const defaultWords = ["Hello", "Bonjour", "Ciao", "Olà", "やあ", "Hallå", "नमस्ते", "Hallo"];
 
 // Animation variants
 const opacity = {
@@ -27,6 +29,12 @@ const slideUp = {
 };
 
 const Preloader = () => {
+  const location = useLocation();
+  const isWorkPage = location.pathname === "/work";
+  
+  // Use different words based on the current page
+  const words = isWorkPage ? ["Work"] : defaultWords;
+  
   const [index, setIndex] = useState(0);
   const [dimension, setDimension] = useState({ width: 0, height: 0 });
   const [isComplete, setIsComplete] = useState(false);
@@ -58,7 +66,7 @@ const Preloader = () => {
     }, index === 0 ? 1000 : 150);
     
     return () => clearTimeout(timeout);
-  }, [index]);
+  }, [index, words.length]);
 
   // Modified path with more pronounced curve at the bottom
   // More dramatic curve for mobile
