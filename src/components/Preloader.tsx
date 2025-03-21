@@ -31,9 +31,18 @@ const slideUp = {
 const Preloader = () => {
   const location = useLocation();
   const isWorkPage = location.pathname === "/work";
+  const isAboutPage = location.pathname === "/about";
+  const isContactPage = location.pathname === "/contact";
   
   // Use different words based on the current page
-  const words = isWorkPage ? ["Work"] : defaultWords;
+  let words = defaultWords;
+  if (isWorkPage) {
+    words = ["Work"];
+  } else if (isAboutPage) {
+    words = ["About"];
+  } else if (isContactPage) {
+    words = ["Contact"];
+  }
   
   const [index, setIndex] = useState(0);
   const [dimension, setDimension] = useState({ width: 0, height: 0 });

@@ -37,10 +37,10 @@ const Navbar = () => {
     };
   }, [scrolled]);
 
-  // Modified to reload only for the Work page
+  // Modified to reload for the Work, About, and Contact pages
   const handleNavigation = (path: string) => {
-    if (path === '/work') {
-      // When navigation is to Work page, reload to show the loader
+    if (path === '/work' || path === '/about' || path === '/contact') {
+      // When navigation is to these pages, reload to show the loader
       window.location.href = path;
     } else {
       // For other pages, use standard navigation
