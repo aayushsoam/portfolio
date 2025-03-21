@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isDarkBg, setIsDarkBg] = useState(true); // Start with assuming dark background
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,57 +72,97 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex items-center space-x-6 lg:space-x-12">
-          <li className="relative">
+          <li className="relative group">
             <Magnetic>
               <button 
                 onClick={() => handleNavigation('/work')} 
                 className={`text-sm ${textColor} hover:opacity-70 transition-all duration-300`}
+                onMouseEnter={() => setHoveredLink('work')}
+                onMouseLeave={() => setHoveredLink(null)}
               >
                 Work
               </button>
             </Magnetic>
-            {currentPath === '/work' && (
-              <div className={`absolute h-1 w-1 ${indicatorColor} rounded-full mx-auto left-0 right-0 bottom-[-8px]`}></div>
-            )}
+            <div className="absolute bottom-[-8px] left-0 right-0 flex justify-center">
+              <div 
+                className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                  currentPath === '/work' 
+                    ? indicatorColor
+                    : hoveredLink === 'work'
+                      ? `${indicatorColor} scale-100`
+                      : `${indicatorColor} scale-0`
+                }`}
+              ></div>
+            </div>
           </li>
-          <li className="relative">
+          <li className="relative group">
             <Magnetic>
               <button 
                 onClick={() => handleNavigation('/about')} 
                 className={`text-sm ${textColor} hover:opacity-70 transition-all duration-300`}
+                onMouseEnter={() => setHoveredLink('about')}
+                onMouseLeave={() => setHoveredLink(null)}
               >
                 About
               </button>
             </Magnetic>
-            {currentPath === '/about' && (
-              <div className={`absolute h-1 w-1 ${indicatorColor} rounded-full mx-auto left-0 right-0 bottom-[-8px]`}></div>
-            )}
+            <div className="absolute bottom-[-8px] left-0 right-0 flex justify-center">
+              <div 
+                className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                  currentPath === '/about' 
+                    ? indicatorColor
+                    : hoveredLink === 'about'
+                      ? `${indicatorColor} scale-100`
+                      : `${indicatorColor} scale-0`
+                }`}
+              ></div>
+            </div>
           </li>
-          <li className="relative">
+          <li className="relative group">
             <Magnetic>
               <button 
                 onClick={() => handleNavigation('/services')} 
                 className={`text-sm ${textColor} hover:opacity-70 transition-all duration-300`}
+                onMouseEnter={() => setHoveredLink('services')}
+                onMouseLeave={() => setHoveredLink(null)}
               >
                 Services
               </button>
             </Magnetic>
-            {currentPath === '/services' && (
-              <div className={`absolute h-1 w-1 ${indicatorColor} rounded-full mx-auto left-0 right-0 bottom-[-8px]`}></div>
-            )}
+            <div className="absolute bottom-[-8px] left-0 right-0 flex justify-center">
+              <div 
+                className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                  currentPath === '/services' 
+                    ? indicatorColor
+                    : hoveredLink === 'services'
+                      ? `${indicatorColor} scale-100`
+                      : `${indicatorColor} scale-0`
+                }`}
+              ></div>
+            </div>
           </li>
-          <li className="relative">
+          <li className="relative group">
             <Magnetic>
               <button 
                 onClick={() => handleNavigation('/contact')} 
                 className={`text-sm ${textColor} hover:opacity-70 transition-all duration-300`}
+                onMouseEnter={() => setHoveredLink('contact')}
+                onMouseLeave={() => setHoveredLink(null)}
               >
                 Contact
               </button>
             </Magnetic>
-            {currentPath === '/contact' && (
-              <div className={`absolute h-1 w-1 ${indicatorColor} rounded-full mx-auto left-0 right-0 bottom-[-8px]`}></div>
-            )}
+            <div className="absolute bottom-[-8px] left-0 right-0 flex justify-center">
+              <div 
+                className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                  currentPath === '/contact' 
+                    ? indicatorColor
+                    : hoveredLink === 'contact'
+                      ? `${indicatorColor} scale-100`
+                      : `${indicatorColor} scale-0`
+                }`}
+              ></div>
+            </div>
           </li>
         </ul>
 
@@ -142,45 +183,85 @@ const Navbar = () => {
                     <button 
                       onClick={() => handleNavigation('/work')} 
                       className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
+                      onMouseEnter={() => setHoveredLink('work-mobile')}
+                      onMouseLeave={() => setHoveredLink(null)}
                     >
                       Work
                     </button>
-                    {currentPath === '/work' && (
-                      <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
-                    )}
+                    <div className="absolute bottom-[-8px] left-0 right-0 flex justify-center">
+                      <div 
+                        className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                          currentPath === '/work' 
+                            ? 'bg-white'
+                            : hoveredLink === 'work-mobile'
+                              ? 'bg-white scale-100'
+                              : 'bg-white scale-0'
+                        }`}
+                      ></div>
+                    </div>
                   </li>
                   <li className="relative">
                     <button 
                       onClick={() => handleNavigation('/about')} 
                       className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
+                      onMouseEnter={() => setHoveredLink('about-mobile')}
+                      onMouseLeave={() => setHoveredLink(null)}
                     >
                       About
                     </button>
-                    {currentPath === '/about' && (
-                      <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
-                    )}
+                    <div className="absolute bottom-[-8px] left-0 right-0 flex justify-center">
+                      <div 
+                        className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                          currentPath === '/about' 
+                            ? 'bg-white'
+                            : hoveredLink === 'about-mobile'
+                              ? 'bg-white scale-100'
+                              : 'bg-white scale-0'
+                        }`}
+                      ></div>
+                    </div>
                   </li>
                   <li className="relative">
                     <button 
                       onClick={() => handleNavigation('/services')} 
                       className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
+                      onMouseEnter={() => setHoveredLink('services-mobile')}
+                      onMouseLeave={() => setHoveredLink(null)}
                     >
                       Services
                     </button>
-                    {currentPath === '/services' && (
-                      <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
-                    )}
+                    <div className="absolute bottom-[-8px] left-0 right-0 flex justify-center">
+                      <div 
+                        className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                          currentPath === '/services' 
+                            ? 'bg-white'
+                            : hoveredLink === 'services-mobile'
+                              ? 'bg-white scale-100'
+                              : 'bg-white scale-0'
+                        }`}
+                      ></div>
+                    </div>
                   </li>
                   <li className="relative">
                     <button 
                       onClick={() => handleNavigation('/contact')} 
                       className="text-xl font-medium text-white hover:text-gray-300 transition-colors"
+                      onMouseEnter={() => setHoveredLink('contact-mobile')}
+                      onMouseLeave={() => setHoveredLink(null)}
                     >
                       Contact
                     </button>
-                    {currentPath === '/contact' && (
-                      <div className="absolute h-1 w-1 bg-white rounded-full mx-auto left-0 right-0 bottom-[-8px]"></div>
-                    )}
+                    <div className="absolute bottom-[-8px] left-0 right-0 flex justify-center">
+                      <div 
+                        className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                          currentPath === '/contact' 
+                            ? 'bg-white'
+                            : hoveredLink === 'contact-mobile'
+                              ? 'bg-white scale-100'
+                              : 'bg-white scale-0'
+                        }`}
+                      ></div>
+                    </div>
                   </li>
                 </ul>
                 <Magnetic>
