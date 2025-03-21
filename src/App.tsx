@@ -9,7 +9,6 @@ import Work from "./pages/Work";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
-import NavHeader from "./components/Navigation/NavHeader";
 
 const queryClient = new QueryClient();
 
@@ -19,7 +18,6 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <NavHeader />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/work" element={<Work />} />
