@@ -115,7 +115,7 @@ const Skills = () => {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   return <motion.section ref={container} style={{
     y
-  }} className="py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-24 xl:px-48 bg-slate-50 z-[1] rounded-b-[20%] w-[120%] left-[-10%] lg:py-[61px] lg:px-[148px]">
+  }} className="py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-24 xl:px-48 bg-slate-50 z-[10] rounded-b-[20%] w-[120%] left-[-10%] lg:py-[61px] lg:px-[148px]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
           <div>
