@@ -1,5 +1,7 @@
+
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const requestRef = useRef<number>();
@@ -79,23 +81,11 @@ const Hero = () => {
       }
     };
   }, []);
-  const slideUp = {
-    initial: {
-      y: 300,
-      opacity: 0
-    },
-    enter: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.43, 1, 0.68, 1],
-        delay: 0.5
-      }
-    }
-  };
-  return <motion.section variants={slideUp} initial="initial" animate="enter" className="relative h-screen overflow-hidden">
-      {/* Background Image */}
+
+  // Removed the slideUp animation variant that was causing the effect after loader
+
+  return <section className="relative h-screen overflow-hidden">
+      {/* Background Image - removed motion animation and effect */}
       <div style={{
       backgroundImage: `url('/lovable-uploads/0687a79e-6796-4aa0-9b7f-2f387647a9f2.png')`,
       backgroundSize: 'cover',
@@ -128,6 +118,6 @@ const Hero = () => {
         <p className="m-0 mb-2.5">Freelance</p>
         <p className="m-0 mb-2.5">Designer & Developer</p>
       </div>
-    </motion.section>;
+    </section>;
 };
 export default Hero;
