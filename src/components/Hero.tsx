@@ -1,6 +1,6 @@
-
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useIsMobile } from '../hooks/use-mobile';
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -9,6 +9,7 @@ const Hero = () => {
   const lastScrollY = useRef<number>(0);
   const speedRef = useRef<number>(1); // Positive is right-to-left, negative is left-to-right
   const positionRef = useRef<number>(0);
+  const isMobile = useIsMobile();
 
   // Set up scroll direction detection
   useEffect(() => {
@@ -82,8 +83,6 @@ const Hero = () => {
     };
   }, []);
 
-  // Removed the slideUp animation variant that was causing the effect after loader
-
   return <section className="relative h-screen overflow-hidden">
       {/* Background Image - removed motion animation and effect */}
       <div style={{
@@ -111,7 +110,7 @@ const Hero = () => {
       </div>
 
       {/* Freelance Text and Icon */}
-      <div data-scroll data-scroll-speed={0.1} className="absolute top-[20%] sm:top-[25%] md:top-[30%] lg:top-[35%] left-[10%] sm:left-[25%] md:left-[50%] lg:left-[75%] text-white text-base sm:text-xl md:text-2xl font-light z-10">
+      <div data-scroll data-scroll-speed={0.1} className={`absolute ${isMobile ? 'top-[240px]' : 'top-[20%] sm:top-[25%] md:top-[30%] lg:top-[35%]'} left-[10%] sm:left-[25%] md:left-[50%] lg:left-[75%] text-white text-base sm:text-xl md:text-2xl font-light z-10`}>
         <svg className="transform scale-100 sm:scale-125 md:scale-150 lg:scale-[2] mb-[30px] sm:mb-[50px] md:mb-[75px] lg:mb-[100px]" width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8 8.5C8.27614 8.5 8.5 8.27614 8.5 8L8.5 3.5C8.5 3.22386 8.27614 3 8 3C7.72386 3 7.5 3.22386 7.5 3.5V7.5H3.5C3.22386 7.5 3 7.72386 3 8C3 8.27614 3.22386 8.5 3.5 8.5L8 8.5ZM0.646447 1.35355L7.64645 8.35355L8.35355 7.64645L1.35355 0.646447L0.646447 1.35355Z" fill="white" />
         </svg>
