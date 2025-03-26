@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
@@ -25,8 +24,6 @@ const Navbar = () => {
         setScrolled(isScrolled);
       }
       
-      // Check background color - if scrolled enough, assume we might be on a white section
-      // This is a simplified approach - for a real app you'd want to check the actual background
       if (window.scrollY > 600) {
         setIsDarkBg(false);
       } else {
@@ -40,7 +37,6 @@ const Navbar = () => {
     };
   }, [scrolled]);
 
-  // Effect for cycling menu words when menu is opened
   useEffect(() => {
     if (!isMenuOpen) {
       setMenuWordIndex(0); // Reset to first word when menu closes
@@ -58,25 +54,20 @@ const Navbar = () => {
     return () => clearTimeout(timeout);
   }, [menuWordIndex, menuWords.length, isMenuOpen]);
 
-  // Modified to reload for the Work, About, and Contact pages
   const handleNavigation = (path: string) => {
     if (path === '/work' || path === '/about' || path === '/contact') {
-      // When navigation is to these pages, reload to show the loader
       window.location.href = path;
     } else {
-      // For other pages, use standard navigation
       navigate(path);
     }
   };
 
-  // Dynamic text and indicator colors based on background
   const textColor = isDarkBg ? "text-white" : "text-black";
   const indicatorColor = isDarkBg ? "bg-white" : "bg-black";
   const hoverColor = isDarkBg ? "hover:text-gray-300" : "hover:text-gray-700";
   const buttonBgColor = isDarkBg ? "bg-white" : "bg-black";
   const buttonTextColor = isDarkBg ? "text-black" : "text-white";
 
-  // Menu animation variants
   const menuSlideIn = {
     initial: {
       x: "100%",
@@ -117,7 +108,6 @@ const Navbar = () => {
           </Link>
         </Magnetic>
 
-        {/* Desktop Menu */}
         <ul className="hidden md:flex items-center space-x-6 lg:space-x-12">
           <li className="relative group">
             <Magnetic>
@@ -213,7 +203,6 @@ const Navbar = () => {
           </li>
         </ul>
 
-        {/* Mobile Menu */}
         {isMobile && (
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
@@ -231,18 +220,7 @@ const Navbar = () => {
                 exit="exit"
                 className="flex flex-col h-full justify-center items-center"
               >
-                {/* Menu Word Animation */}
-                <motion.div 
-                  className="absolute top-1/4 transform -translate-y-1/2 flex items-center mb-16"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.75 }}
-                  transition={{ duration: 1, delay: 0.2 }}
-                >
-                  <span className="block w-[10px] h-[10px] bg-white rounded-full mr-[10px]"></span>
-                  <span className="text-white text-2xl">{menuWords[menuWordIndex]}</span>
-                </motion.div>
-
-                <ul className="space-y-8 text-center mt-16">
+                <ul className="space-y-8 text-center">
                   <li className="relative">
                     <button 
                       onClick={() => handleNavigation('/work')} 
