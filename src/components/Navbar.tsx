@@ -206,10 +206,10 @@ const Navbar = () => {
         {isMobile && (
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
-              <button className="md:hidden z-50 p-2 flex flex-col items-center justify-center space-y-1.5">
-                <div className={`w-6 h-0.5 ${indicatorColor} transition-colors duration-300`}></div>
-                <div className={`w-6 h-0.5 ${indicatorColor} transition-colors duration-300`}></div>
-                <div className={`w-6 h-0.5 ${indicatorColor} transition-colors duration-300`}></div>
+              <button className="md:hidden z-50 p-2 flex flex-col items-center justify-center space-y-1.5 bg-black rounded-full w-10 h-10">
+                <div className="w-5 h-0.5 bg-white transition-colors duration-300"></div>
+                <div className="w-5 h-0.5 bg-white transition-colors duration-300"></div>
+                <div className="w-5 h-0.5 bg-white transition-colors duration-300"></div>
               </button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:max-w-sm p-0 bg-[#141516] border-l-[#2a2a2a] overflow-hidden">
