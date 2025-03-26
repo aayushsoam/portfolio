@@ -10,6 +10,9 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isDarkBg, setIsDarkBg] = useState(true); // Start with assuming dark background
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const [menuWords, setMenuWords] = useState<string[]>(["Menu", "Navigation", "Links"]);
+  const [menuWordIndex, setMenuWordIndex] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,6 +40,24 @@ const Navbar = () => {
     };
   }, [scrolled]);
 
+  // Effect for cycling menu words when menu is opened
+  useEffect(() => {
+    if (!isMenuOpen) {
+      setMenuWordIndex(0); // Reset to first word when menu closes
+      return;
+    }
+    
+    if (menuWordIndex === menuWords.length - 1) {
+      return; // Stop at the last word
+    }
+    
+    const timeout = setTimeout(() => {
+      setMenuWordIndex(menuWordIndex + 1);
+    }, menuWordIndex === 0 ? 800 : 150);
+    
+    return () => clearTimeout(timeout);
+  }, [menuWordIndex, menuWords.length, isMenuOpen]);
+
   // Modified to reload for the Work, About, and Contact pages
   const handleNavigation = (path: string) => {
     if (path === '/work' || path === '/about' || path === '/contact') {
@@ -54,6 +75,27 @@ const Navbar = () => {
   const hoverColor = isDarkBg ? "hover:text-gray-300" : "hover:text-gray-700";
   const buttonBgColor = isDarkBg ? "bg-white" : "bg-black";
   const buttonTextColor = isDarkBg ? "text-black" : "text-white";
+
+  // Menu animation variants
+  const menuSlideIn = {
+    initial: {
+      x: "100%",
+    },
+    animate: {
+      x: 0,
+      transition: { 
+        duration: 0.7, 
+        ease: [0.43, 0.13, 0.23, 0.96] 
+      }
+    },
+    exit: {
+      x: "100%",
+      transition: { 
+        duration: 0.7, 
+        ease: [0.43, 0.13, 0.23, 0.96] 
+      }
+    }
+  };
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 px-4 xs:px-6 sm:px-12 md:px-16 py-4 md:py-6 transition-colors duration-300`}>
@@ -173,7 +215,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobile && (
-          <Sheet>
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <button className="md:hidden z-50 p-2 flex flex-col items-center justify-center space-y-1.5">
                 <div className={`w-6 h-0.5 ${indicatorColor} transition-colors duration-300`}></div>
@@ -181,9 +223,26 @@ const Navbar = () => {
                 <div className={`w-6 h-0.5 ${indicatorColor} transition-colors duration-300`}></div>
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:max-w-sm p-0 bg-[#141516] border-l-[#2a2a2a]">
-              <div className="flex flex-col h-full justify-center items-center">
-                <ul className="space-y-8 text-center">
+            <SheetContent side="right" className="w-full sm:max-w-sm p-0 bg-[#141516] border-l-[#2a2a2a] overflow-hidden">
+              <motion.div 
+                variants={menuSlideIn}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="flex flex-col h-full justify-center items-center"
+              >
+                {/* Menu Word Animation */}
+                <motion.div 
+                  className="absolute top-1/4 transform -translate-y-1/2 flex items-center mb-16"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.75 }}
+                  transition={{ duration: 1, delay: 0.2 }}
+                >
+                  <span className="block w-[10px] h-[10px] bg-white rounded-full mr-[10px]"></span>
+                  <span className="text-white text-2xl">{menuWords[menuWordIndex]}</span>
+                </motion.div>
+
+                <ul className="space-y-8 text-center mt-16">
                   <li className="relative">
                     <button 
                       onClick={() => handleNavigation('/work')} 
@@ -276,7 +335,7 @@ const Navbar = () => {
                     Get in touch
                   </button>
                 </Magnetic>
-              </div>
+              </motion.div>
             </SheetContent>
           </Sheet>
         )}
