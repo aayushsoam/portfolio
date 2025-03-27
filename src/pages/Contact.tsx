@@ -42,9 +42,9 @@ const Contact = () => {
     // Update Delhi time
     const updateDelhiTime = () => {
       const options = { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit',
+        hour: "2-digit" as const, 
+        minute: "2-digit" as const, 
+        second: "2-digit" as const,
         hour12: false, 
         timeZone: 'Asia/Kolkata' 
       };

@@ -67,7 +67,7 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
         onClick={onClick}
       >
         <div 
-          className={`relative z-10 transition-transform duration-500 ${isSliding ? 'translate-x-full' : 'translate-x-0'}`}
+          className={`relative z-10 transition-transform duration-500 ${isSliding ? 'translate-x-1/2' : 'translate-x-0'}`}
         >
           {children}
         </div>
