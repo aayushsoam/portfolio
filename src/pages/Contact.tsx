@@ -39,18 +39,30 @@ const Contact = () => {
       setIsLoading(false);
     }, 2200);
 
-    // Set current time
-    const time = new Date();
-    setCurrentTime(
-      time.toLocaleTimeString('en-US', { 
+    // Update Delhi time
+    const updateDelhiTime = () => {
+      const options = { 
         hour: '2-digit', 
         minute: '2-digit', 
+        second: '2-digit',
         hour12: false, 
-        timeZone: 'UTC' 
-      }) + " GMT+0"
-    );
+        timeZone: 'Asia/Kolkata' 
+      };
+      
+      const time = new Date();
+      setCurrentTime(time.toLocaleTimeString('en-US', options) + " IST");
+    };
+
+    // Initial time update
+    updateDelhiTime();
     
-    return () => clearTimeout(timer);
+    // Set up interval to update time every second
+    const timeInterval = setInterval(updateDelhiTime, 1000);
+    
+    return () => {
+      clearTimeout(timer);
+      clearInterval(timeInterval);
+    };
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
