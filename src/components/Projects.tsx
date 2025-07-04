@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
+import { ExternalLink } from 'lucide-react';
 import AnimatedButton from './AnimatedButton';
 import FadeInWhenVisible from './FadeInWhenVisible';
 import { useProjects } from '../hooks/useProjects';
@@ -104,6 +105,18 @@ const Projects = () => {
     window.location.href = '/work';
   };
 
+  const handleGithubClick = (githubUrl: string) => {
+    if (githubUrl) {
+      window.open(githubUrl, '_blank');
+    }
+  };
+
+  const handleDemoClick = (demoUrl: string) => {
+    if (demoUrl) {
+      window.open(demoUrl, '_blank');
+    }
+  };
+
   if (loading) {
     return (
       <section className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50">
@@ -171,6 +184,7 @@ const Projects = () => {
         </div>
       </FadeInWhenVisible>
       
+      {/* Modal with project image */}
       <motion.div 
         ref={modalContainer} 
         variants={scaleAnimation} 
@@ -187,23 +201,46 @@ const Projects = () => {
           {projects.map((project, i) => (
             <div 
               key={project.id} 
-              className="h-full w-full flex items-center justify-center rounded-2xl" 
+              className="h-full w-full flex flex-col rounded-2xl relative" 
               style={{
                 backgroundColor: project.color || '#F9F5F0'
               }}
             >
-              <div className="w-[80%] h-[80%]">
+              <div className="w-full h-[75%] p-4">
                 <img 
                   src={project.image_url || '/placeholder.svg'} 
                   alt={project.title} 
-                  className="w-full h-full object-cover" 
+                  className="w-full h-full object-cover rounded-lg" 
                 />
+              </div>
+              
+              {/* Action buttons */}
+              <div className="flex justify-center gap-2 p-4 pointer-events-auto">
+                {project.github_url && (
+                  <button
+                    onClick={() => handleGithubClick(project.github_url)}
+                    className="flex items-center gap-1 px-3 py-1 bg-black text-white text-xs rounded-full hover:bg-gray-800 transition-colors"
+                  >
+                    <ExternalLink size={12} />
+                    GitHub
+                  </button>
+                )}
+                {project.demo_url && (
+                  <button
+                    onClick={() => handleDemoClick(project.demo_url)}
+                    className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full hover:bg-blue-700 transition-colors"
+                  >
+                    <ExternalLink size={12} />
+                    Live Demo
+                  </button>
+                )}
               </div>
             </div>
           ))}
         </div>
       </motion.div>
       
+      {/* Cursor */}
       <motion.div 
         ref={cursor} 
         variants={scaleAnimation} 
@@ -212,6 +249,7 @@ const Projects = () => {
         className="fixed w-20 h-20 rounded-full bg-black/75 z-50 flex items-center justify-center pointer-events-none" 
       />
       
+      {/* Cursor Label */}
       <motion.div 
         ref={cursorLabel} 
         variants={scaleAnimation} 
