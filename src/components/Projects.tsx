@@ -1,40 +1,10 @@
+
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import AnimatedButton from './AnimatedButton';
-import Magnetic from './Magnetic';
 import FadeInWhenVisible from './FadeInWhenVisible';
-
-interface Project {
-  title: string;
-  category: string;
-  src: string;
-  color: string;
-}
-
-const projects: Project[] = [
-  {
-    title: "Harmony",
-    category: "Interface Design",
-    src: "/placeholder.svg",
-    color: "#F9F5F0"
-  }, {
-    title: "Serenity",
-    category: "Design & Development",
-    src: "/placeholder.svg",
-    color: "#F5F5F5"
-  }, {
-    title: "Essence",
-    category: "Product Design",
-    src: "/placeholder.svg",
-    color: "#F0F0F0"
-  }, {
-    title: "Balance",
-    category: "Visual Identity",
-    src: "/placeholder.svg",
-    color: "#EAEAEA"
-  }
-];
+import { useProjects } from '../hooks/useProjects';
 
 const scaleAnimation = {
   initial: {
@@ -63,6 +33,7 @@ const scaleAnimation = {
 };
 
 const Projects = () => {
+  const { projects, loading, error } = useProjects();
   const [modal, setModal] = useState({
     active: false,
     index: 0
@@ -133,7 +104,40 @@ const Projects = () => {
     window.location.href = '/work';
   };
 
-  return <section onMouseMove={e => moveItems(e.clientX, e.clientY)} className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50">
+  if (loading) {
+    return (
+      <section className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16">
+            <span className="text-sm text-gray-500 block mb-4">SELECTED WORK</span>
+            <h2 className="text-4xl sm:text-5xl font-light">Projects</h2>
+          </div>
+          <div className="text-center py-12">
+            <p className="text-gray-600">Loading projects...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16">
+            <span className="text-sm text-gray-500 block mb-4">SELECTED WORK</span>
+            <h2 className="text-4xl sm:text-5xl font-light">Projects</h2>
+          </div>
+          <div className="text-center py-12">
+            <p className="text-red-600">Error loading projects: {error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section onMouseMove={e => moveItems(e.clientX, e.clientY)} className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50">
       <FadeInWhenVisible>
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
@@ -142,14 +146,21 @@ const Projects = () => {
           </div>
           
           <div className="divide-y divide-gray-200">
-            {projects.map((project, i) => <div key={i} onMouseEnter={e => manageModal(true, i, e.clientX, e.clientY)} onMouseLeave={e => manageModal(false, i, e.clientX, e.clientY)} className="py-12 sm:py-16 flex justify-between items-center cursor-pointer group">
+            {projects.map((project, i) => (
+              <div 
+                key={project.id} 
+                onMouseEnter={e => manageModal(true, i, e.clientX, e.clientY)} 
+                onMouseLeave={e => manageModal(false, i, e.clientX, e.clientY)} 
+                className="py-12 sm:py-16 flex justify-between items-center cursor-pointer group"
+              >
                 <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light transition-transform duration-300 group-hover:translate-x-[-10px] group-hover:opacity-50">
                   {project.title}
                 </h3>
                 <p className="text-gray-500 transition-transform duration-300 group-hover:translate-x-[10px] group-hover:opacity-50">
                   {project.category}
                 </p>
-              </div>)}
+              </div>
+            ))}
           </div>
           
           <div className="mt-20 flex justify-center">
@@ -160,26 +171,58 @@ const Projects = () => {
         </div>
       </FadeInWhenVisible>
       
-      <motion.div ref={modalContainer} variants={scaleAnimation} initial="initial" animate={active ? "enter" : "closed"} className="fixed h-[350px] w-[400px] bg-white pointer-events-none overflow-hidden rounded-2xl z-50">
-        <div style={{
-        top: `calc(${index} * -100%)`
-      }} className="h-full w-full relative transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]">
-          {projects.map((project, i) => <div key={i} className="h-full w-full flex items-center justify-center rounded-2xl" style={{
-          backgroundColor: project.color
-        }}>
+      <motion.div 
+        ref={modalContainer} 
+        variants={scaleAnimation} 
+        initial="initial" 
+        animate={active ? "enter" : "closed"} 
+        className="fixed h-[350px] w-[400px] bg-white pointer-events-none overflow-hidden rounded-2xl z-50"
+      >
+        <div 
+          style={{
+            top: `calc(${index} * -100%)`
+          }} 
+          className="h-full w-full relative transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]"
+        >
+          {projects.map((project, i) => (
+            <div 
+              key={project.id} 
+              className="h-full w-full flex items-center justify-center rounded-2xl" 
+              style={{
+                backgroundColor: project.color || '#F9F5F0'
+              }}
+            >
               <div className="w-[80%] h-[80%]">
-                <img src={project.src} alt={project.title} className="w-full h-full object-cover" />
+                <img 
+                  src={project.image_url || '/placeholder.svg'} 
+                  alt={project.title} 
+                  className="w-full h-full object-cover" 
+                />
               </div>
-            </div>)}
+            </div>
+          ))}
         </div>
       </motion.div>
       
-      <motion.div ref={cursor} variants={scaleAnimation} initial="initial" animate={active ? "enter" : "closed"} className="fixed w-20 h-20 rounded-full bg-black/75 z-50 flex items-center justify-center pointer-events-none" />
+      <motion.div 
+        ref={cursor} 
+        variants={scaleAnimation} 
+        initial="initial" 
+        animate={active ? "enter" : "closed"} 
+        className="fixed w-20 h-20 rounded-full bg-black/75 z-50 flex items-center justify-center pointer-events-none" 
+      />
       
-      <motion.div ref={cursorLabel} variants={scaleAnimation} initial="initial" animate={active ? "enter" : "closed"} className="fixed text-white text-sm font-light z-50 pointer-events-none">
+      <motion.div 
+        ref={cursorLabel} 
+        variants={scaleAnimation} 
+        initial="initial" 
+        animate={active ? "enter" : "closed"} 
+        className="fixed text-white text-sm font-light z-50 pointer-events-none"
+      >
         View
       </motion.div>
-    </section>;
+    </section>
+  );
 };
 
 export default Projects;
