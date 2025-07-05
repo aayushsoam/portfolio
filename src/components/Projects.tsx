@@ -116,14 +116,14 @@ const Projects = () => {
     window.location.href = '/work';
   };
 
-  const handleGithubClick = (githubUrl: string) => {
+  const handleGithubClick = (githubUrl: string | null) => {
     console.log('GitHub button clicked:', githubUrl);
     if (githubUrl) {
       window.open(githubUrl, '_blank');
     }
   };
 
-  const handleDemoClick = (demoUrl: string) => {
+  const handleDemoClick = (demoUrl: string | null) => {
     console.log('Demo button clicked:', demoUrl);
     if (demoUrl) {
       window.open(demoUrl, '_blank');
@@ -237,16 +237,26 @@ const Projects = () => {
                 backgroundColor: project.color || '#F9F5F0'
               }}
             >
-              <div className="w-full h-[75%] p-4">
+              <div className="w-full h-[70%] p-4">
                 <img 
                   src={project.image_url || '/placeholder.svg'} 
                   alt={project.title} 
                   className="w-full h-full object-cover rounded-lg" 
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/placeholder.svg';
+                  }}
                 />
               </div>
               
+              {/* Project title */}
+              <div className="px-4 pb-2">
+                <h4 className="text-lg font-medium text-gray-800 truncate">{project.title}</h4>
+                <p className="text-sm text-gray-600 truncate">{project.category}</p>
+              </div>
+              
               {/* Action buttons */}
-              <div className="flex justify-center gap-2 p-4 pointer-events-auto">
+              <div className="flex justify-center gap-2 px-4 pb-4 pointer-events-auto">
                 {project.github_url && (
                   <button
                     onClick={(e) => {
@@ -274,6 +284,11 @@ const Projects = () => {
                     <ExternalLink size={12} />
                     Live Demo
                   </button>
+                )}
+                {!project.github_url && !project.demo_url && (
+                  <div className="text-xs text-gray-500 px-3 py-1">
+                    Coming Soon
+                  </div>
                 )}
               </div>
             </div>
