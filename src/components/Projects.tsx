@@ -40,6 +40,9 @@ const Projects = () => {
     index: 0
   });
 
+  console.log('Projects loaded:', projects);
+  console.log('Modal state:', modal);
+
   const { active, index } = modal;
   const modalContainer = useRef<HTMLDivElement>(null);
   const cursor = useRef<HTMLDivElement>(null);
@@ -52,6 +55,7 @@ const Projects = () => {
   const yMoveCursorLabel = useRef<gsap.QuickToFunc | null>(null);
 
   useEffect(() => {
+    console.log('Setting up GSAP animations');
     if (modalContainer.current && cursor.current && cursorLabel.current) {
       xMoveContainer.current = gsap.quickTo(modalContainer.current, "left", {
         duration: 0.8,
@@ -79,6 +83,7 @@ const Projects = () => {
         duration: 0.45,
         ease: "power3"
       });
+      console.log('GSAP animations set up successfully');
     }
   }, []);
 
@@ -94,6 +99,7 @@ const Projects = () => {
   };
 
   const manageModal = (active: boolean, index: number, x: number, y: number) => {
+    console.log('Managing modal:', { active, index, x, y });
     moveItems(x, y);
     setModal({
       active,
@@ -106,12 +112,14 @@ const Projects = () => {
   };
 
   const handleGithubClick = (githubUrl: string) => {
+    console.log('GitHub button clicked:', githubUrl);
     if (githubUrl) {
       window.open(githubUrl, '_blank');
     }
   };
 
   const handleDemoClick = (demoUrl: string) => {
+    console.log('Demo button clicked:', demoUrl);
     if (demoUrl) {
       window.open(demoUrl, '_blank');
     }
@@ -150,7 +158,10 @@ const Projects = () => {
   }
 
   return (
-    <section onMouseMove={e => moveItems(e.clientX, e.clientY)} className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50">
+    <section onMouseMove={e => {
+      console.log('Mouse move:', e.clientX, e.clientY);
+      moveItems(e.clientX, e.clientY);
+    }} className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50">
       <FadeInWhenVisible>
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
@@ -162,8 +173,14 @@ const Projects = () => {
             {projects.map((project, i) => (
               <div 
                 key={project.id} 
-                onMouseEnter={e => manageModal(true, i, e.clientX, e.clientY)} 
-                onMouseLeave={e => manageModal(false, i, e.clientX, e.clientY)} 
+                onMouseEnter={e => {
+                  console.log('Mouse enter project:', project.title, i);
+                  manageModal(true, i, e.clientX, e.clientY);
+                }} 
+                onMouseLeave={e => {
+                  console.log('Mouse leave project:', project.title);
+                  manageModal(false, i, e.clientX, e.clientY);
+                }} 
                 className="py-12 sm:py-16 flex justify-between items-center cursor-pointer group"
               >
                 <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light transition-transform duration-300 group-hover:translate-x-[-10px] group-hover:opacity-50">
@@ -190,7 +207,10 @@ const Projects = () => {
         variants={scaleAnimation} 
         initial="initial" 
         animate={active ? "enter" : "closed"} 
-        className="fixed h-[350px] w-[400px] bg-white pointer-events-none overflow-hidden rounded-2xl z-50"
+        className="fixed h-[350px] w-[400px] bg-white pointer-events-none overflow-hidden rounded-2xl z-50 shadow-2xl"
+        style={{
+          transform: 'translate(-50%, -50%)'
+        }}
       >
         <div 
           style={{
@@ -218,8 +238,12 @@ const Projects = () => {
               <div className="flex justify-center gap-2 p-4 pointer-events-auto">
                 {project.github_url && (
                   <button
-                    onClick={() => handleGithubClick(project.github_url)}
-                    className="flex items-center gap-1 px-3 py-1 bg-black text-white text-xs rounded-full hover:bg-gray-800 transition-colors"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleGithubClick(project.github_url);
+                    }}
+                    className="flex items-center gap-1 px-3 py-1 bg-black text-white text-xs rounded-full hover:bg-gray-800 transition-colors z-60"
                   >
                     <ExternalLink size={12} />
                     GitHub
@@ -227,8 +251,12 @@ const Projects = () => {
                 )}
                 {project.demo_url && (
                   <button
-                    onClick={() => handleDemoClick(project.demo_url)}
-                    className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full hover:bg-blue-700 transition-colors"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleDemoClick(project.demo_url);
+                    }}
+                    className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full hover:bg-blue-700 transition-colors z-60"
                   >
                     <ExternalLink size={12} />
                     Live Demo
@@ -247,6 +275,9 @@ const Projects = () => {
         initial="initial" 
         animate={active ? "enter" : "closed"} 
         className="fixed w-20 h-20 rounded-full bg-black/75 z-50 flex items-center justify-center pointer-events-none" 
+        style={{
+          transform: 'translate(-50%, -50%)'
+        }}
       />
       
       {/* Cursor Label */}
@@ -256,6 +287,9 @@ const Projects = () => {
         initial="initial" 
         animate={active ? "enter" : "closed"} 
         className="fixed text-white text-sm font-light z-50 pointer-events-none"
+        style={{
+          transform: 'translate(-50%, -50%)'
+        }}
       >
         View
       </motion.div>
