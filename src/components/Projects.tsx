@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
@@ -53,6 +52,28 @@ const Projects = () => {
   const yMoveCursor = useRef<gsap.QuickToFunc | null>(null);
   const xMoveCursorLabel = useRef<gsap.QuickToFunc | null>(null);
   const yMoveCursorLabel = useRef<gsap.QuickToFunc | null>(null);
+
+  // Function to get valid image URL or fallback
+  const getImageUrl = (imageUrl: string | null, projectTitle: string) => {
+    console.log(`Getting image for ${projectTitle}:`, imageUrl);
+    
+    if (!imageUrl) {
+      console.log(`No image URL for ${projectTitle}, using placeholder`);
+      return '/placeholder.svg';
+    }
+    
+    // Check if it's a valid direct image URL
+    const isValidImageUrl = imageUrl.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i) || 
+                           imageUrl.includes('placeholder.svg') ||
+                           imageUrl.startsWith('data:image/');
+    
+    if (!isValidImageUrl) {
+      console.log(`Invalid image URL for ${projectTitle}:`, imageUrl, 'using placeholder');
+      return '/placeholder.svg';
+    }
+    
+    return imageUrl;
+  };
 
   useEffect(() => {
     console.log('Setting up GSAP animations');
@@ -229,70 +250,81 @@ const Projects = () => {
           }} 
           className="h-full w-full relative transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]"
         >
-          {projects.map((project, i) => (
-            <div 
-              key={project.id} 
-              className="h-full w-full flex flex-col rounded-2xl relative" 
-              style={{
-                backgroundColor: project.color || '#F9F5F0'
-              }}
-            >
-              <div className="w-full h-[70%] p-4">
-                <img 
-                  src={project.image_url || '/placeholder.svg'} 
-                  alt={project.title} 
-                  className="w-full h-full object-cover rounded-lg" 
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = '/placeholder.svg';
-                  }}
-                />
-              </div>
-              
-              {/* Project title */}
-              <div className="px-4 pb-2">
-                <h4 className="text-lg font-medium text-gray-800 truncate">{project.title}</h4>
-                <p className="text-sm text-gray-600 truncate">{project.category}</p>
-              </div>
-              
-              {/* Action buttons */}
-              <div className="flex justify-center gap-2 px-4 pb-4 pointer-events-auto">
-                {project.github_url && (
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleGithubClick(project.github_url);
+          {projects.map((project, i) => {
+            const imageUrl = getImageUrl(project.image_url, project.title);
+            
+            return (
+              <div 
+                key={project.id} 
+                className="h-full w-full flex flex-col rounded-2xl relative" 
+                style={{
+                  backgroundColor: project.color || '#F9F5F0'
+                }}
+              >
+                <div className="w-full h-[70%] p-4">
+                  <img 
+                    src={imageUrl} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover rounded-lg" 
+                    onLoad={() => {
+                      console.log(`Image loaded successfully for ${project.title}:`, imageUrl);
                     }}
-                    className="flex items-center gap-1 px-3 py-1 bg-black text-white text-xs rounded-full hover:bg-gray-800 transition-colors"
-                    style={{ zIndex: 1001 }}
-                  >
-                    <ExternalLink size={12} />
-                    GitHub
-                  </button>
-                )}
-                {project.demo_url && (
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleDemoClick(project.demo_url);
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      console.log(`Image failed to load for ${project.title}:`, imageUrl);
+                      if (target.src !== '/placeholder.svg') {
+                        console.log(`Switching to placeholder for ${project.title}`);
+                        target.src = '/placeholder.svg';
+                      }
                     }}
-                    className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full hover:bg-blue-700 transition-colors"
-                    style={{ zIndex: 1001 }}
-                  >
-                    <ExternalLink size={12} />
-                    Live Demo
-                  </button>
-                )}
-                {!project.github_url && !project.demo_url && (
-                  <div className="text-xs text-gray-500 px-3 py-1">
-                    Coming Soon
-                  </div>
-                )}
+                  />
+                </div>
+                
+                {/* Project title */}
+                <div className="px-4 pb-2">
+                  <h4 className="text-lg font-medium text-gray-800 truncate">{project.title}</h4>
+                  <p className="text-sm text-gray-600 truncate">{project.category}</p>
+                </div>
+                
+                {/* Action buttons */}
+                <div className="flex justify-center gap-2 px-4 pb-4 pointer-events-auto">
+                  {project.github_url && (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleGithubClick(project.github_url);
+                      }}
+                      className="flex items-center gap-1 px-3 py-1 bg-black text-white text-xs rounded-full hover:bg-gray-800 transition-colors"
+                      style={{ zIndex: 1001 }}
+                    >
+                      <ExternalLink size={12} />
+                      GitHub
+                    </button>
+                  )}
+                  {project.demo_url && (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDemoClick(project.demo_url);
+                      }}
+                      className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full hover:bg-blue-700 transition-colors"
+                      style={{ zIndex: 1001 }}
+                    >
+                      <ExternalLink size={12} />
+                      Live Demo
+                    </button>
+                  )}
+                  {!project.github_url && !project.demo_url && (
+                    <div className="text-xs text-gray-500 px-3 py-1">
+                      Coming Soon
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </motion.div>
       
