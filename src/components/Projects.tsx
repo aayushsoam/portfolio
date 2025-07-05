@@ -57,6 +57,11 @@ const Projects = () => {
   useEffect(() => {
     console.log('Setting up GSAP animations');
     if (modalContainer.current && cursor.current && cursorLabel.current) {
+      // Set initial positions to prevent flickering
+      gsap.set(modalContainer.current, { left: "50%", top: "50%" });
+      gsap.set(cursor.current, { left: "50%", top: "50%" });
+      gsap.set(cursorLabel.current, { left: "50%", top: "50%" });
+
       xMoveContainer.current = gsap.quickTo(modalContainer.current, "left", {
         duration: 0.8,
         ease: "power3"
@@ -158,10 +163,13 @@ const Projects = () => {
   }
 
   return (
-    <section onMouseMove={e => {
-      console.log('Mouse move:', e.clientX, e.clientY);
-      moveItems(e.clientX, e.clientY);
-    }} className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50">
+    <section 
+      onMouseMove={e => {
+        console.log('Section mouse move:', e.clientX, e.clientY);
+        moveItems(e.clientX, e.clientY);
+      }} 
+      className="py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50 relative"
+    >
       <FadeInWhenVisible>
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
@@ -207,16 +215,19 @@ const Projects = () => {
         variants={scaleAnimation} 
         initial="initial" 
         animate={active ? "enter" : "closed"} 
-        className="fixed h-[350px] w-[400px] bg-white pointer-events-none overflow-hidden rounded-2xl z-50 shadow-2xl"
+        className="fixed h-[350px] w-[400px] bg-white pointer-events-none overflow-hidden rounded-2xl shadow-2xl"
         style={{
+          zIndex: 1000,
+          left: "50%",
+          top: "50%",
           transform: 'translate(-50%, -50%)'
         }}
       >
         <div 
           style={{
-            top: `calc(${index} * -100%)`
+            transform: `translateY(calc(${index} * -100%))`
           }} 
-          className="h-full w-full relative transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]"
+          className="h-full w-full relative transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]"
         >
           {projects.map((project, i) => (
             <div 
@@ -243,7 +254,8 @@ const Projects = () => {
                       e.stopPropagation();
                       handleGithubClick(project.github_url);
                     }}
-                    className="flex items-center gap-1 px-3 py-1 bg-black text-white text-xs rounded-full hover:bg-gray-800 transition-colors z-60"
+                    className="flex items-center gap-1 px-3 py-1 bg-black text-white text-xs rounded-full hover:bg-gray-800 transition-colors"
+                    style={{ zIndex: 1001 }}
                   >
                     <ExternalLink size={12} />
                     GitHub
@@ -256,7 +268,8 @@ const Projects = () => {
                       e.stopPropagation();
                       handleDemoClick(project.demo_url);
                     }}
-                    className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full hover:bg-blue-700 transition-colors z-60"
+                    className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full hover:bg-blue-700 transition-colors"
+                    style={{ zIndex: 1001 }}
                   >
                     <ExternalLink size={12} />
                     Live Demo
@@ -274,8 +287,11 @@ const Projects = () => {
         variants={scaleAnimation} 
         initial="initial" 
         animate={active ? "enter" : "closed"} 
-        className="fixed w-20 h-20 rounded-full bg-black/75 z-50 flex items-center justify-center pointer-events-none" 
+        className="fixed w-20 h-20 rounded-full bg-black/75 flex items-center justify-center pointer-events-none" 
         style={{
+          zIndex: 999,
+          left: "50%",
+          top: "50%",
           transform: 'translate(-50%, -50%)'
         }}
       />
@@ -286,8 +302,11 @@ const Projects = () => {
         variants={scaleAnimation} 
         initial="initial" 
         animate={active ? "enter" : "closed"} 
-        className="fixed text-white text-sm font-light z-50 pointer-events-none"
+        className="fixed text-white text-sm font-light pointer-events-none"
         style={{
+          zIndex: 1000,
+          left: "50%",
+          top: "50%",
           transform: 'translate(-50%, -50%)'
         }}
       >
