@@ -93,15 +93,39 @@ const Navbar = () => {
       <AnimatePresence>
         {scrolled && (
           <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }} 
-            className={`absolute inset-0 backdrop-blur-lg -z-10 ${isDarkBg ? 'bg-black/10' : 'bg-white/80'} rounded-full mx-[240px]`} 
-          />
+            initial={{ opacity: 0, scale: 0.95 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            exit={{ opacity: 0, scale: 0.95 }} 
+            transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
+            className={`absolute inset-0 -z-10 rounded-full mx-[240px] overflow-hidden`}
+            style={{
+              background: isDarkBg 
+                ? 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)'
+                : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: isDarkBg 
+                ? '1px solid rgba(255,255,255,0.1)' 
+                : '1px solid rgba(0,0,0,0.1)',
+              boxShadow: isDarkBg 
+                ? '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)'
+                : '0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8)'
+            }}
+          >
+            {/* Glass reflection effect */}
+            <div 
+              className="absolute inset-0 opacity-30"
+              style={{
+                background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)',
+                transform: 'translateX(-100%)',
+                animation: 'shimmer 3s ease-in-out infinite'
+              }}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
 
-      <nav className="flex justify-between items-center max-w-7xl mx-auto">
+      <nav className="flex justify-between items-center max-w-7xl mx-auto relative z-10">
         <Magnetic>
           <Link to="/" className={`text-base xs:text-lg font-medium ${textColor} transition-colors duration-300`}>
             Minimalist
