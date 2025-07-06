@@ -52,7 +52,8 @@ const About = () => {
                 />
               </div>
               
-              <div className="absolute -bottom-8 -right-8 hidden sm:block">
+              {/* Desktop: Button positioned as overlay */}
+              <div className="absolute -bottom-8 -right-8 hidden md:block">
                 <AnimatedButton 
                   backgroundColor="#000000"
                   onClick={() => handleNavigation('/about')}
@@ -61,7 +62,8 @@ const About = () => {
                 </AnimatedButton>
               </div>
               
-              <div className="mt-6 text-center md:hidden">
+              {/* Mobile: Button centered below image */}
+              <div className="mt-6 flex justify-center md:hidden">
                 <AnimatedButton 
                   backgroundColor="#000000"
                   onClick={() => handleNavigation('/about')}
