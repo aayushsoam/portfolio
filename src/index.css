@@ -163,55 +163,6 @@
   }
 }
 
-@keyframes enhanced-shimmer {
-  0% {
-    transform: translateX(-100%) skewX(-12deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.6;
-  }
-  90% {
-    opacity: 0.4;
-  }
-  100% {
-    transform: translateX(200%) skewX(-12deg);
-    opacity: 0;
-  }
-}
-
-@keyframes enhanced-shimmer-reverse {
-  0% {
-    transform: translateX(200%) skewX(12deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.3;
-  }
-  90% {
-    opacity: 0.2;
-  }
-  100% {
-    transform: translateX(-100%) skewX(12deg);
-    opacity: 0;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
 @layer components {
   .animate-fade-in {
     animation: fade-in 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
