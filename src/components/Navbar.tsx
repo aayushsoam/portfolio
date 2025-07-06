@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
@@ -93,32 +94,105 @@ const Navbar = () => {
       <AnimatePresence>
         {scrolled && (
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }} 
-            animate={{ opacity: 1, scale: 1 }} 
-            exit={{ opacity: 0, scale: 0.95 }} 
-            transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
-            className={`absolute inset-0 -z-10 rounded-full mx-[240px] overflow-hidden`}
+            initial={{ opacity: 0, scale: 0.9, y: -20 }} 
+            animate={{ opacity: 1, scale: 1, y: 0 }} 
+            exit={{ opacity: 0, scale: 0.9, y: -20 }} 
+            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+            className="absolute inset-0 -z-10 rounded-2xl mx-[200px] overflow-hidden"
             style={{
               background: isDarkBg 
-                ? 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)'
-                : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
+                ? `
+                  linear-gradient(135deg, 
+                    rgba(255,255,255,0.15) 0%, 
+                    rgba(255,255,255,0.08) 25%,
+                    rgba(255,255,255,0.05) 50%,
+                    rgba(255,255,255,0.08) 75%,
+                    rgba(255,255,255,0.12) 100%
+                  ),
+                  radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 60%)
+                `
+                : `
+                  linear-gradient(135deg, 
+                    rgba(255,255,255,0.95) 0%, 
+                    rgba(255,255,255,0.85) 25%,
+                    rgba(255,255,255,0.75) 50%,
+                    rgba(255,255,255,0.85) 75%,
+                    rgba(255,255,255,0.9) 100%
+                  ),
+                  radial-gradient(circle at 70% 30%, rgba(255,255,255,0.3) 0%, transparent 50%)
+                `,
+              backdropFilter: 'blur(24px) saturate(1.8)',
+              WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
               border: isDarkBg 
-                ? '1px solid rgba(255,255,255,0.1)' 
-                : '1px solid rgba(0,0,0,0.1)',
+                ? '1.5px solid rgba(255,255,255,0.15)' 
+                : '1.5px solid rgba(255,255,255,0.25)',
+              borderTop: isDarkBg 
+                ? '1px solid rgba(255,255,255,0.25)'
+                : '1px solid rgba(255,255,255,0.4)',
+              borderBottom: isDarkBg 
+                ? '1px solid rgba(255,255,255,0.05)'
+                : '1px solid rgba(255,255,255,0.15)',
               boxShadow: isDarkBg 
-                ? '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)'
-                : '0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8)'
+                ? `
+                  0 20px 40px rgba(0,0,0,0.4),
+                  0 8px 16px rgba(0,0,0,0.2),
+                  inset 0 1px 0 rgba(255,255,255,0.2),
+                  inset 0 -1px 0 rgba(255,255,255,0.05),
+                  0 0 0 1px rgba(255,255,255,0.05)
+                `
+                : `
+                  0 20px 40px rgba(0,0,0,0.15),
+                  0 8px 16px rgba(0,0,0,0.08),
+                  inset 0 1px 0 rgba(255,255,255,0.9),
+                  inset 0 -1px 0 rgba(255,255,255,0.3),
+                  0 0 0 1px rgba(255,255,255,0.2)
+                `
             }}
           >
-            {/* Glass reflection effect */}
+            {/* Primary shimmer reflection */}
             <div 
-              className="absolute inset-0 opacity-30"
+              className="absolute inset-0 opacity-40"
               style={{
-                background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)',
-                transform: 'translateX(-100%)',
-                animation: 'shimmer 3s ease-in-out infinite'
+                background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.6) 55%, transparent 100%)',
+                transform: 'translateX(-100%) skewX(-12deg)',
+                animation: 'enhanced-shimmer 4s ease-in-out infinite',
+                animationDelay: '0s'
+              }}
+            />
+            
+            {/* Secondary reflection layer */}
+            <div 
+              className="absolute inset-0 opacity-20"
+              style={{
+                background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)',
+                transform: 'translateX(100%) skewX(12deg)',
+                animation: 'enhanced-shimmer-reverse 5s ease-in-out infinite',
+                animationDelay: '1s'
+              }}
+            />
+
+            {/* Glass texture overlay */}
+            <div 
+              className="absolute inset-0 opacity-15"
+              style={{
+                background: `
+                  radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2) 0%, transparent 40%),
+                  radial-gradient(circle at 40% 40%, rgba(255,255,255,0.1) 0%, transparent 50%)
+                `,
+              }}
+            />
+
+            {/* Frosted edge highlights */}
+            <div 
+              className="absolute inset-0 rounded-2xl"
+              style={{
+                background: `
+                  linear-gradient(to right, rgba(255,255,255,0.3) 0%, transparent 10%),
+                  linear-gradient(to left, rgba(255,255,255,0.3) 0%, transparent 10%),
+                  linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 10%),
+                  linear-gradient(to top, rgba(255,255,255,0.1) 0%, transparent 10%)
+                `,
               }}
             />
           </motion.div>
