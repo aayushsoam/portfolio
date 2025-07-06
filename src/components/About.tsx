@@ -1,6 +1,7 @@
 
 import { useRef } from 'react';
 import { useInView, motion } from 'framer-motion';
+import { Download } from 'lucide-react';
 import TextReveal from './TextReveal';
 import AnimatedButton from './AnimatedButton';
 import FadeInWhenVisible from './FadeInWhenVisible';
@@ -17,6 +18,16 @@ const About = () => {
   const handleNavigation = (path: string) => {
     // When navigation is triggered, reload the page to show the loader
     window.location.href = path;
+  };
+
+  const handleDownloadResume = () => {
+    // Create a temporary link to download resume
+    const link = document.createElement('a');
+    link.href = '/resume.pdf'; // Assuming resume is in public folder
+    link.download = 'resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
   
   return (
@@ -52,23 +63,24 @@ const About = () => {
                 />
               </div>
               
-              {/* Desktop: Button positioned as overlay */}
-              <div className="absolute -bottom-8 -right-8 hidden md:block">
+              {/* Buttons positioned below image for all screen sizes */}
+              <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <AnimatedButton 
                   backgroundColor="#000000"
                   onClick={() => handleNavigation('/about')}
                 >
                   <span className="text-white">About me</span>
                 </AnimatedButton>
-              </div>
-              
-              {/* Mobile: Button centered below image */}
-              <div className="mt-6 flex justify-center md:hidden">
+                
                 <AnimatedButton 
-                  backgroundColor="#000000"
-                  onClick={() => handleNavigation('/about')}
+                  backgroundColor="#ffffff"
+                  className="border border-gray-200"
+                  onClick={handleDownloadResume}
                 >
-                  <span className="text-white">About me</span>
+                  <span className="text-black flex items-center gap-2">
+                    <Download size={16} />
+                    Download Resume
+                  </span>
                 </AnimatedButton>
               </div>
             </div>
