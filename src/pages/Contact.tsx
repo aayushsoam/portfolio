@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Preloader from "../components/Preloader";
 import Navbar from "../components/Navbar";
@@ -7,32 +6,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import FadeInWhenVisible from "../components/FadeInWhenVisible";
 import { ArrowUpRight } from "lucide-react";
-
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  organization: z.string().min(2, { message: "Organization must be at least 2 characters." }),
-  services: z.string().min(2, { message: "Please specify at least one service." }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters."
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address."
+  }),
+  organization: z.string().min(2, {
+    message: "Organization must be at least 2 characters."
+  }),
+  services: z.string().min(2, {
+    message: "Please specify at least one service."
+  }),
+  message: z.string().min(10, {
+    message: "Message must be at least 10 characters."
+  })
 });
-
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState("");
-  
   useEffect(() => {
     // Allow the preloader animation to play
     const timer = setTimeout(() => {
@@ -41,30 +40,27 @@ const Contact = () => {
 
     // Update Delhi time
     const updateDelhiTime = () => {
-      const options = { 
-        hour: "2-digit" as const, 
-        minute: "2-digit" as const, 
+      const options = {
+        hour: "2-digit" as const,
+        minute: "2-digit" as const,
         second: "2-digit" as const,
-        hour12: false, 
-        timeZone: 'Asia/Kolkata' 
+        hour12: false,
+        timeZone: 'Asia/Kolkata'
       };
-      
       const time = new Date();
       setCurrentTime(time.toLocaleTimeString('en-US', options) + " IST");
     };
 
     // Initial time update
     updateDelhiTime();
-    
+
     // Set up interval to update time every second
     const timeInterval = setInterval(updateDelhiTime, 1000);
-    
     return () => {
       clearTimeout(timer);
       clearInterval(timeInterval);
     };
   }, []);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -72,25 +68,21 @@ const Contact = () => {
       email: "",
       organization: "",
       services: "",
-      message: "",
-    },
+      message: ""
+    }
   });
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     // In a real application, you would send the form data to a server
     console.log(values);
     toast.success("Your message has been sent!");
     form.reset();
   }
-
-  return (
-    <>
+  return <>
       <AnimatePresence>
         {isLoading && <Preloader />}
       </AnimatePresence>
       
-      {!isLoading && (
-        <main className="bg-[#141516] w-full min-h-screen overflow-x-hidden text-white">
+      {!isLoading && <main className="bg-[#141516] w-full min-h-screen overflow-x-hidden text-white">
           <Navbar />
           
           <div className="pt-32 px-6 sm:px-12 lg:px-16 xl:px-24 pb-16">
@@ -107,11 +99,7 @@ const Contact = () => {
                 
                 <FadeInWhenVisible delay={0.2}>
                   <div className="mt-6 md:mt-0">
-                    <img 
-                      src="/lovable-uploads/768ff656-c21e-404d-af4c-bb6273806d5a.png"
-                      alt="Profile" 
-                      className="w-24 h-24 rounded-full object-cover" 
-                    />
+                    <img alt="Profile" className="w-24 h-24 rounded-full object-cover" src="https://i.postimg.cc/26GXc5Xy/background.png" />
                   </div>
                 </FadeInWhenVisible>
               </div>
@@ -125,23 +113,15 @@ const Contact = () => {
                         <div className="flex items-start">
                           <span className="text-gray-500 mr-6">01</span>
                           <div className="w-full">
-                            <FormField
-                              control={form.control}
-                              name="name"
-                              render={({ field }) => (
-                                <FormItem>
+                            <FormField control={form.control} name="name" render={({
+                          field
+                        }) => <FormItem>
                                   <FormLabel className="text-xl text-white mb-4 block">What's your name?</FormLabel>
                                   <FormControl>
-                                    <Input 
-                                      placeholder="John Doe *" 
-                                      {...field} 
-                                      className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 pb-2" 
-                                    />
+                                    <Input placeholder="John Doe *" {...field} className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 pb-2" />
                                   </FormControl>
                                   <FormMessage />
-                                </FormItem>
-                              )}
-                            />
+                                </FormItem>} />
                           </div>
                         </div>
                       </div>
@@ -150,23 +130,15 @@ const Contact = () => {
                         <div className="flex items-start">
                           <span className="text-gray-500 mr-6">02</span>
                           <div className="w-full">
-                            <FormField
-                              control={form.control}
-                              name="email"
-                              render={({ field }) => (
-                                <FormItem>
+                            <FormField control={form.control} name="email" render={({
+                          field
+                        }) => <FormItem>
                                   <FormLabel className="text-xl text-white mb-4 block">What's your email?</FormLabel>
                                   <FormControl>
-                                    <Input 
-                                      placeholder="john@doe.com *" 
-                                      {...field} 
-                                      className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 pb-2" 
-                                    />
+                                    <Input placeholder="john@doe.com *" {...field} className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 pb-2" />
                                   </FormControl>
                                   <FormMessage />
-                                </FormItem>
-                              )}
-                            />
+                                </FormItem>} />
                           </div>
                         </div>
                       </div>
@@ -175,23 +147,15 @@ const Contact = () => {
                         <div className="flex items-start">
                           <span className="text-gray-500 mr-6">03</span>
                           <div className="w-full">
-                            <FormField
-                              control={form.control}
-                              name="organization"
-                              render={({ field }) => (
-                                <FormItem>
+                            <FormField control={form.control} name="organization" render={({
+                          field
+                        }) => <FormItem>
                                   <FormLabel className="text-xl text-white mb-4 block">What's the name of your organization?</FormLabel>
                                   <FormControl>
-                                    <Input 
-                                      placeholder="John & Doe ®" 
-                                      {...field} 
-                                      className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 pb-2" 
-                                    />
+                                    <Input placeholder="John & Doe ®" {...field} className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 pb-2" />
                                   </FormControl>
                                   <FormMessage />
-                                </FormItem>
-                              )}
-                            />
+                                </FormItem>} />
                           </div>
                         </div>
                       </div>
@@ -200,23 +164,15 @@ const Contact = () => {
                         <div className="flex items-start">
                           <span className="text-gray-500 mr-6">04</span>
                           <div className="w-full">
-                            <FormField
-                              control={form.control}
-                              name="services"
-                              render={({ field }) => (
-                                <FormItem>
+                            <FormField control={form.control} name="services" render={({
+                          field
+                        }) => <FormItem>
                                   <FormLabel className="text-xl text-white mb-4 block">What services are you looking for?</FormLabel>
                                   <FormControl>
-                                    <Input 
-                                      placeholder="Web Design, Web Development ..." 
-                                      {...field} 
-                                      className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 pb-2" 
-                                    />
+                                    <Input placeholder="Web Design, Web Development ..." {...field} className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 pb-2" />
                                   </FormControl>
                                   <FormMessage />
-                                </FormItem>
-                              )}
-                            />
+                                </FormItem>} />
                           </div>
                         </div>
                       </div>
@@ -225,32 +181,21 @@ const Contact = () => {
                         <div className="flex items-start">
                           <span className="text-gray-500 mr-6">05</span>
                           <div className="w-full">
-                            <FormField
-                              control={form.control}
-                              name="message"
-                              render={({ field }) => (
-                                <FormItem>
+                            <FormField control={form.control} name="message" render={({
+                          field
+                        }) => <FormItem>
                                   <FormLabel className="text-xl text-white mb-4 block">Your message</FormLabel>
                                   <FormControl>
-                                    <Textarea 
-                                      placeholder="Hello, can you help me with ... *" 
-                                      {...field} 
-                                      className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 min-h-24 resize-none pb-2"
-                                    />
+                                    <Textarea placeholder="Hello, can you help me with ... *" {...field} className="bg-transparent border-none border-b border-gray-800 rounded-none text-gray-400 text-lg pl-0 focus-visible:ring-0 min-h-24 resize-none pb-2" />
                                   </FormControl>
                                   <FormMessage />
-                                </FormItem>
-                              )}
-                            />
+                                </FormItem>} />
                           </div>
                         </div>
                       </div>
                       
                       <div className="border-t border-gray-800 pt-8 flex justify-center">
-                        <Button 
-                          type="submit" 
-                          className="mt-4 bg-[#4758EE] hover:bg-[#3A48D0] text-white rounded-full px-14 py-8 h-auto text-lg font-normal"
-                        >
+                        <Button type="submit" className="mt-4 bg-[#4758EE] hover:bg-[#3A48D0] text-white rounded-full px-14 py-8 h-auto text-lg font-normal">
                           Send it!
                         </Button>
                       </div>
@@ -318,10 +263,7 @@ const Contact = () => {
               </div>
             </div>
           </div>
-        </main>
-      )}
-    </>
-  );
+        </main>}
+    </>;
 };
-
 export default Contact;
