@@ -66,16 +66,19 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
         className={`relative overflow-hidden rounded-full px-8 py-4 cursor-pointer border border-gray-200 ${className}`}
         onClick={onClick}
       >
+        {/* Background circle - now behind the text */}
         <div 
-          className={`relative z-10 transition-transform duration-500 ${isSliding ? 'translate-x-1/2' : 'translate-x-0'}`}
+          ref={circleRef}
+          className="absolute w-full h-150 rounded-full top-full left-0 z-0"
+          style={{ backgroundColor }}
+        ></div>
+        
+        {/* Text content - now above the background */}
+        <div 
+          className={`relative z-10 transition-transform duration-500 text-black ${isSliding ? 'translate-x-1/2' : 'translate-x-0'}`}
         >
           {children}
         </div>
-        <div 
-          ref={circleRef}
-          className="absolute w-full h-150 rounded-full top-full left-0"
-          style={{ backgroundColor }}
-        ></div>
       </div>
     </Magnetic>
   );
