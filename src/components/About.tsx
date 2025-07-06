@@ -43,7 +43,7 @@ const About = () => {
               {/* Desktop: Button positioned as overlay */}
               <div className="absolute -bottom-8 -right-8 hidden md:block">
                 <AnimatedButton backgroundColor="#000000" onClick={() => handleNavigation('/about')}>
-                  <span className="text-zinc-950">About me</span>
+                  <span className="text-zinc-950 font-semibold text-3xl mx-[33px] my-0 px-0 py-0">About me</span>
                 </AnimatedButton>
               </div>
               
