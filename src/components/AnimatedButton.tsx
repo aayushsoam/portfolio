@@ -57,7 +57,7 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
       }}></div>
         
         {/* Text content - now above the background */}
-        <div className={`relative z-10 transition-transform duration-500 text-black ${isSliding ? 'translate-x-1/2' : 'translate-x-0'}`}>
+        <div className="px-[55px] rounded-full bg-white/[0.29]">
           {children}
         </div>
       </div>
