@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '../hooks/use-mobile';
-
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const requestRef = useRef<number>();
@@ -82,14 +81,13 @@ const Hero = () => {
       }
     };
   }, []);
-
   return <section className="relative h-screen overflow-hidden">
       {/* Background Image - removed motion animation and effect */}
       <div style={{
       backgroundImage: `url('/lovable-uploads/0687a79e-6796-4aa0-9b7f-2f387647a9f2.png')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center'
-    }} className="absolute inset-0 w-full h-full z-0 bg-gray-700" />
+    }} className="absolute inset-0 w-full h-full z-0 bg-neutral-950" />
 
       {/* Infinite Text Loop */}
       <div className="absolute bottom-[5px] left-0 w-full z-10 overflow-hidden">
