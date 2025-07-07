@@ -16,7 +16,7 @@ const Contact = () => {
   const rotate = useTransform(scrollYProgress, [0, 1], [120, 90]);
   return <motion.section ref={container} style={{
     y
-  }} className="bg-black text-white py-32">
+  }} className="bg-black text-white py-32 z-0 ">
       <div className="max-w-7xl mx-auto px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48">
         <div className="relative border-b border-gray-800 pb-24">
           <div className="flex flex-col items-start">
