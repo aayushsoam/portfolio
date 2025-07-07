@@ -5,7 +5,7 @@ const CertificatesSection = () => {
       <div className="max-w-7xl mx-auto">
         <FadeInWhenVisible>
           <div className="mb-16">
-            <span className="text-sm text-gray-500 block mb-4">CERTIFICATES</span>
+            <span className="block mb-4 text-2xl font-semibold text-zinc-950 text-center">CERTIFICATES</span>
             <h2 className="text-4xl sm:text-5xl font-light text-white mb-4">
               My Certifications
             </h2>
