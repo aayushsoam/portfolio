@@ -6,6 +6,7 @@ import Hero from "../components/Hero";
 import About from "../components/About";
 import Projects from "../components/Projects";
 import ProjectShowcase from "../components/ProjectShowcase";
+import CertificatesSection from "../components/CertificatesSection";
 import Contact from "../components/Contact";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -47,6 +48,7 @@ const Index = () => {
         <About />
         <Projects />
         <ProjectShowcase />
+        <CertificatesSection />
         <Contact />
       </motion.main>
     </>
