@@ -1,10 +1,7 @@
-
 import FadeInWhenVisible from './FadeInWhenVisible';
 import CertificateCarousel from './CertificateCarousel';
-
 const CertificatesSection = () => {
-  return (
-    <section className="py-20 sm:py-24 md:py-28 lg:py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-[#fdfdfd]">
+  return <section className="py-20 sm:py-24 md:py-28 lg:py-32 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-[#fdfdfd]">
       <div className="max-w-7xl mx-auto">
         <FadeInWhenVisible>
           <div className="mb-16">
@@ -22,10 +19,6 @@ const CertificatesSection = () => {
           <CertificateCarousel />
         </FadeInWhenVisible>
       </div>
-      
-      <div className="absolute h-[1550%] w-[120%] left-[-10%] rounded-b-[50%] shadow-[0px_60px_50px_rgba(0,0,0,0.748)] z-[1] bg-white"></div>
-    </section>
-  );
+    </section>;
 };
-
 export default CertificatesSection;
