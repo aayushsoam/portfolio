@@ -1,5 +1,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 import type { Database } from '@/integrations/supabase/types';
 
 type Certificate = Database['public']['Tables']['certificates']['Row'];
@@ -13,11 +15,33 @@ interface CertificateModalProps {
 const CertificateModal = ({ certificate, isOpen, onClose }: CertificateModalProps) => {
   if (!certificate) return null;
 
+  const handleDownload = () => {
+    // Create a link element to download the certificate as PDF
+    const link = document.createElement('a');
+    link.href = certificate.image_url;
+    link.download = `${certificate.title.replace(/\s+/g, '_')}_Certificate.pdf`;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-light mb-4">{certificate.title}</DialogTitle>
+          <DialogTitle className="text-2xl font-light mb-4 flex items-center justify-between">
+            {certificate.title}
+            <Button
+              onClick={handleDownload}
+              variant="outline"
+              size="sm"
+              className="ml-4"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download PDF
+            </Button>
+          </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-6">

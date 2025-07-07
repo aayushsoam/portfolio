@@ -31,7 +31,7 @@ const CertificateCarousel = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-20">
-        <div className="text-lg text-gray-500">Loading certificates...</div>
+        <div className="text-lg text-gray-400">Loading certificates...</div>
       </div>
     );
   }
@@ -39,7 +39,7 @@ const CertificateCarousel = () => {
   if (error) {
     return (
       <div className="flex justify-center items-center py-20">
-        <div className="text-lg text-red-500">Error loading certificates: {error}</div>
+        <div className="text-lg text-red-400">Error loading certificates: {error}</div>
       </div>
     );
   }
@@ -47,7 +47,7 @@ const CertificateCarousel = () => {
   if (certificates.length === 0) {
     return (
       <div className="flex justify-center items-center py-20">
-        <div className="text-lg text-gray-500">No certificates found</div>
+        <div className="text-lg text-gray-400">No certificates found</div>
       </div>
     );
   }
@@ -68,7 +68,7 @@ const CertificateCarousel = () => {
                 className="group cursor-pointer transform transition-all duration-300 hover:scale-105"
                 onClick={() => handleCertificateClick(certificate)}
               >
-                <div className="relative overflow-hidden rounded-lg shadow-lg bg-white">
+                <div className="relative overflow-hidden rounded-lg shadow-lg bg-gray-800 border border-gray-700 hover:border-gray-600 transition-colors">
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
                       src={certificate.image_url}
@@ -77,11 +77,11 @@ const CertificateCarousel = () => {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-medium mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-xl font-medium mb-2 text-white group-hover:text-blue-400 transition-colors">
                       {certificate.title}
                     </h3>
                     {certificate.issued_by && (
-                      <p className="text-sm text-gray-600 mb-2">
+                      <p className="text-sm text-gray-400 mb-2">
                         Issued by {certificate.issued_by}
                       </p>
                     )}
@@ -94,13 +94,20 @@ const CertificateCarousel = () => {
                       </p>
                     )}
                   </div>
+                  
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                    <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Click to view details</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="text-white border-gray-600 hover:bg-gray-700" />
+        <CarouselNext className="text-white border-gray-600 hover:bg-gray-700" />
       </Carousel>
 
       <CertificateModal
