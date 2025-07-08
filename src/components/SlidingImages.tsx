@@ -55,7 +55,6 @@ const SlidingImages = () => {
             muted
             loop
             playsInline
-            loading="lazy"
           />
         ) : (
           <img 
