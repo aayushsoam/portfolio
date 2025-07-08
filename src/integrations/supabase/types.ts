@@ -134,36 +134,6 @@ export type Database = {
         }
         Relationships: []
       }
-      sliding_images: {
-        Row: {
-          background_color: string | null
-          created_at: string
-          display_order: number | null
-          id: string
-          image_url: string
-          section: number
-          updated_at: string
-        }
-        Insert: {
-          background_color?: string | null
-          created_at?: string
-          display_order?: number | null
-          id?: string
-          image_url: string
-          section: number
-          updated_at?: string
-        }
-        Update: {
-          background_color?: string | null
-          created_at?: string
-          display_order?: number | null
-          id?: string
-          image_url?: string
-          section?: number
-          updated_at?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
