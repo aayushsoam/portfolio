@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Code, Figma, FileType, Wind, Braces, LayoutTemplate, FileCode, Zap, Download } from "lucide-react";
+import { Code, Figma, FileType, Wind, Braces, LayoutTemplate, FileCode, Zap, Download, MapPin, Calendar, Building2 } from "lucide-react";
 import { useWorkExperience } from "@/hooks/useWorkExperience";
 
 const skillCategories = [{
@@ -199,36 +199,85 @@ const Skills = () => {
           ) : workExperienceError ? (
             <div className="text-center text-red-500">Error loading work experience</div>
           ) : (
-            <div className="space-y-12">
+            <div className="space-y-8">
               {workExperience?.map((exp, index) => (
-                <FadeInWhenVisible key={exp.id} delay={0.2 * index} className="border-l-2 border-gray-300 pl-8 relative">
-                  <div className="absolute w-4 h-4 rounded-full bg-black -left-[9px] top-0"></div>
-                  <span className="text-sm text-gray-500 block mb-1">{exp.period}</span>
-                  <h3 className="text-xl font-medium mb-1">{exp.position}</h3>
-                  <h4 className="text-lg mb-3">{exp.company}</h4>
-                  {exp.description && (
-                    <p className="text-gray-600 mb-4">{exp.description}</p>
-                  )}
-                  
-                  {exp.work_experience_documents && exp.work_experience_documents.length > 0 && (
-                    <div className="mt-4">
-                      <h5 className="text-sm font-medium text-gray-700 mb-2">Related Documents:</h5>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-                        {exp.work_experience_documents.slice(0, 4).map((doc) => (
-                          <a
-                            key={doc.id}
-                            href={doc.document_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors text-sm"
-                          >
-                            <Download className="w-4 h-4 text-gray-600" />
-                            <span className="truncate">{doc.document_name}</span>
-                          </a>
-                        ))}
+                <FadeInWhenVisible key={exp.id} delay={0.1 * index}>
+                  <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                    <div className="flex flex-col space-y-4">
+                      {/* Company and Position Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                          <h3 className="text-xl font-semibold text-gray-900 mb-1">{exp.company}</h3>
+                          <p className="text-lg text-gray-700">{exp.position}</p>
+                        </div>
+                        <div className="flex items-center text-gray-500 text-sm mt-2 sm:mt-0">
+                          <Calendar className="w-4 h-4 mr-1" />
+                          <span>{exp.period}</span>
+                        </div>
                       </div>
+
+                      {/* Work Type/Location */}
+                      <div className="flex items-center text-gray-500 text-sm">
+                        <MapPin className="w-4 h-4 mr-1" />
+                        <span>Remote</span>
+                      </div>
+
+                      {/* Description */}
+                      {exp.description && (
+                        <div className="text-gray-600 leading-relaxed">
+                          <p className="font-medium text-gray-800 mb-2">Major Duties During Position:</p>
+                          <p>{exp.description}</p>
+                        </div>
+                      )}
+
+                      {/* Skills/Technologies */}
+                      <div className="flex items-center space-x-2">
+                        <span className="text-gray-700 font-medium">Skills:</span>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="outline" className="bg-gray-50">
+                            Python (Programming Language)
+                          </Badge>
+                          <Badge variant="outline" className="bg-gray-50">
+                            Data Analysis
+                          </Badge>
+                          <Badge variant="outline" className="bg-gray-50">
+                            +4 skills
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      {/* Documents */}
+                      {exp.work_experience_documents && exp.work_experience_documents.length > 0 && (
+                        <div className="pt-4 border-t border-gray-100">
+                          <h5 className="text-sm font-medium text-gray-700 mb-3">Related Documents:</h5>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            {exp.work_experience_documents.slice(0, 4).map((doc) => (
+                              <a
+                                key={doc.id}
+                                href={doc.document_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200"
+                              >
+                                <div className="flex-shrink-0">
+                                  <div className="w-8 h-10 bg-red-100 rounded flex items-center justify-center">
+                                    <FileType className="w-4 h-4 text-red-600" />
+                                  </div>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-medium text-gray-900 truncate">
+                                    {doc.document_name}
+                                  </p>
+                                  <p className="text-xs text-gray-500">PDF Document</p>
+                                </div>
+                                <Download className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </FadeInWhenVisible>
               ))}
             </div>
