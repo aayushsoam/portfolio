@@ -154,7 +154,7 @@ export type Database = {
           display_order?: number | null
           id?: string
           image_url: string
-          media_type?: string
+          media_type: string
           section: number
           title?: string | null
           updated_at?: string

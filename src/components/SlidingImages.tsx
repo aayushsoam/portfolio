@@ -17,6 +17,21 @@ const SlidingImages = () => {
   const x2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
   const height = useTransform(scrollYProgress, [0, 0.9], [50, 0]);
 
+  // Function to convert YouTube URL to embed URL
+  const getYouTubeEmbedUrl = (url: string) => {
+    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(regex);
+    if (match) {
+      return `https://www.youtube.com/embed/${match[1]}?autoplay=1&mute=1&loop=1&playlist=${match[1]}`;
+    }
+    return null;
+  };
+
+  // Function to check if URL is a YouTube URL
+  const isYouTubeUrl = (url: string) => {
+    return url.includes('youtube.com') || url.includes('youtu.be');
+  };
+
   if (isLoading) {
     return (
       <div className="slidingImages flex flex-col gap-[3vw] relative mt-[200px] bg-white z-[1] h-[50vh] items-center justify-center">
@@ -48,14 +63,26 @@ const SlidingImages = () => {
     >
       <div className="relative w-[80%] h-[80%]">
         {item.media_type === 'video' ? (
-          <video 
-            src={item.image_url} 
-            className="w-full h-full object-cover rounded-2xl"
-            autoPlay
-            muted
-            loop
-            playsInline
-          />
+          <>
+            {isYouTubeUrl(item.image_url) ? (
+              <iframe
+                src={getYouTubeEmbedUrl(item.image_url)}
+                className="w-full h-full object-cover rounded-2xl"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video 
+                src={item.image_url} 
+                className="w-full h-full object-cover rounded-2xl"
+                autoPlay
+                muted
+                loop
+                playsInline
+              />
+            )}
+          </>
         ) : (
           <img 
             src={item.image_url} 
