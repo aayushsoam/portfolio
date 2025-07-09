@@ -1,3 +1,4 @@
+
 import { useRef, useState } from 'react';
 import { useScroll, motion, useTransform } from 'framer-motion';
 import FadeInWhenVisible from './FadeInWhenVisible';
@@ -6,7 +7,8 @@ import { Progress } from "@/components/ui/progress";
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Code, Figma, FileType, Wind, Braces, LayoutTemplate, FileCode, Zap } from "lucide-react";
+import { Code, Figma, FileType, Wind, Braces, LayoutTemplate, FileCode, Zap, Download } from "lucide-react";
+import { useWorkExperience } from "@/hooks/useWorkExperience";
 
 const skillCategories = [{
   title: "Development",
@@ -17,23 +19,6 @@ const skillCategories = [{
 }, {
   title: "Other",
   skills: ["Project Management", "SEO", "Performance Optimization", "Responsive Design", "Git"]
-}];
-
-const experiences = [{
-  company: "Design Studio",
-  position: "Senior Developer",
-  period: "2020 - Present",
-  description: "Led the development of interactive websites for luxury brands and created immersive digital experiences."
-}, {
-  company: "Creative Agency",
-  position: "Frontend Developer",
-  period: "2018 - 2020",
-  description: "Developed responsive websites and implemented animations using GSAP and Framer Motion."
-}, {
-  company: "Tech Startup",
-  position: "UI/UX Designer",
-  period: "2016 - 2018",
-  description: "Designed user interfaces and created wireframes and prototypes for mobile and web applications."
 }];
 
 const skillsData = [{
@@ -109,6 +94,8 @@ const scaleAnimation = {
 
 const Skills = () => {
   const container = useRef<HTMLElement>(null);
+  const { data: workExperience, isLoading: isWorkExperienceLoading, error: workExperienceError } = useWorkExperience();
+  
   const {
     scrollYProgress
   } = useScroll({
@@ -207,15 +194,45 @@ const Skills = () => {
         <div className="border-t border-gray-200 pt-16 relative">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-light mb-12">Work Experience</h2>
           
-          <div className="space-y-12">
-            {experiences.map((exp, index) => <FadeInWhenVisible key={index} delay={0.2 * index} className="border-l-2 border-gray-300 pl-8 relative">
-                <div className="absolute w-4 h-4 rounded-full bg-black -left-[9px] top-0"></div>
-                <span className="text-sm text-gray-500 block mb-1">{exp.period}</span>
-                <h3 className="text-xl font-medium mb-1">{exp.position}</h3>
-                <h4 className="text-lg mb-3">{exp.company}</h4>
-                <p className="text-gray-600">{exp.description}</p>
-              </FadeInWhenVisible>)}
-          </div>
+          {isWorkExperienceLoading ? (
+            <div className="text-center text-gray-500">Loading work experience...</div>
+          ) : workExperienceError ? (
+            <div className="text-center text-red-500">Error loading work experience</div>
+          ) : (
+            <div className="space-y-12">
+              {workExperience?.map((exp, index) => (
+                <FadeInWhenVisible key={exp.id} delay={0.2 * index} className="border-l-2 border-gray-300 pl-8 relative">
+                  <div className="absolute w-4 h-4 rounded-full bg-black -left-[9px] top-0"></div>
+                  <span className="text-sm text-gray-500 block mb-1">{exp.period}</span>
+                  <h3 className="text-xl font-medium mb-1">{exp.position}</h3>
+                  <h4 className="text-lg mb-3">{exp.company}</h4>
+                  {exp.description && (
+                    <p className="text-gray-600 mb-4">{exp.description}</p>
+                  )}
+                  
+                  {exp.work_experience_documents && exp.work_experience_documents.length > 0 && (
+                    <div className="mt-4">
+                      <h5 className="text-sm font-medium text-gray-700 mb-2">Related Documents:</h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                        {exp.work_experience_documents.slice(0, 4).map((doc) => (
+                          <a
+                            key={doc.id}
+                            href={doc.document_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                          >
+                            <Download className="w-4 h-4 text-gray-600" />
+                            <span className="truncate">{doc.document_name}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </FadeInWhenVisible>
+              ))}
+            </div>
+          )}
           
           <motion.div style={{ height }} className="relative mt-24">
             <div className="absolute h-[1550%] w-[120%] left-[-10%] rounded-b-[50%] shadow-[0px_60px_50px_rgba(0,0,0,0.748)] z-[1] bg-white">

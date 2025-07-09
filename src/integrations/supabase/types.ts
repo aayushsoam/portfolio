@@ -173,6 +173,80 @@ export type Database = {
         }
         Relationships: []
       }
+      work_experience: {
+        Row: {
+          company: string
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          period: string
+          position: string
+          updated_at: string
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          period: string
+          position: string
+          updated_at?: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          period?: string
+          position?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      work_experience_documents: {
+        Row: {
+          created_at: string
+          display_order: number | null
+          document_name: string
+          document_url: string
+          file_size: number | null
+          id: string
+          updated_at: string
+          work_experience_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number | null
+          document_name: string
+          document_url: string
+          file_size?: number | null
+          id?: string
+          updated_at?: string
+          work_experience_id: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number | null
+          document_name?: string
+          document_url?: string
+          file_size?: number | null
+          id?: string
+          updated_at?: string
+          work_experience_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "work_experience_documents_work_experience_id_fkey"
+            columns: ["work_experience_id"]
+            isOneToOne: false
+            referencedRelation: "work_experience"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
