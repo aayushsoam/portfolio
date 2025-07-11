@@ -16,13 +16,7 @@ const WorkExperienceDocumentModal = ({ document, isOpen, onClose }: WorkExperien
   if (!document) return null;
 
   const handleDownload = () => {
-    const link = window.document.createElement('a');
-    link.href = document.document_url;
-    link.download = `${document.document_name.replace(/\s+/g, '_')}.pdf`;
-    link.target = '_blank';
-    window.document.body.appendChild(link);
-    link.click();
-    window.document.body.removeChild(link);
+    window.open(document.document_url, '_blank');
   };
 
   return (

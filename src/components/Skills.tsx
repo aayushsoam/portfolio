@@ -125,13 +125,7 @@ const Skills = () => {
 
   const handleDownloadDocument = (document: WorkExperienceDocument, event: React.MouseEvent) => {
     event.stopPropagation();
-    const link = window.document.createElement('a');
-    link.href = document.document_url;
-    link.download = `${document.document_name.replace(/\s+/g, '_')}.pdf`;
-    link.target = '_blank';
-    window.document.body.appendChild(link);
-    link.click();
-    window.document.body.removeChild(link);
+    window.open(document.document_url, '_blank');
   };
   
   return (
@@ -247,7 +241,7 @@ const Skills = () => {
                             <div
                               key={doc.id}
                               onClick={() => handleDocumentClick(doc)}
-                              className="relative cursor-pointer group"
+                              className="relative cursor-pointer group overflow-hidden"
                               style={{
                                 height: '50px',
                                 width: '100px',
@@ -257,7 +251,16 @@ const Skills = () => {
                                 borderRadius: '10px'
                               }}
                             >
-                              <div className="flex items-center justify-between h-full">
+                              {/* Background image from document URL */}
+                              <div 
+                                className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 group-hover:opacity-30 transition-opacity"
+                                style={{
+                                  backgroundImage: `url(${doc.document_url})`,
+                                  borderRadius: '8px'
+                                }}
+                              />
+                              
+                              <div className="relative z-10 flex items-center justify-between h-full">
                                 <div className="flex items-center gap-2 flex-1 min-w-0">
                                   <FileText className="w-4 h-4 text-gray-600 flex-shrink-0" />
                                   <span className="text-xs font-medium truncate text-gray-800">
@@ -266,15 +269,15 @@ const Skills = () => {
                                 </div>
                                 <button
                                   onClick={(e) => handleDownloadDocument(doc, e)}
-                                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-200 rounded"
-                                  title="Download PDF"
+                                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-200 rounded z-20"
+                                  title="Open PDF in new tab"
                                 >
                                   <Download className="w-3 h-3 text-gray-600" />
                                 </button>
                               </div>
                               
                               {/* Hover overlay */}
-                              <div className="absolute inset-0 bg-black bg-opacity-5 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"></div>
+                              <div className="absolute inset-0 bg-black bg-opacity-5 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg z-0"></div>
                             </div>
                           ))}
                         </div>
