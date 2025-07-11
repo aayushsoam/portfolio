@@ -48,15 +48,32 @@ const WorkExperienceDocumentModal = ({ document, isOpen, onClose }: WorkExperien
         
         <div className="space-y-6">
           <div className="relative w-full">
-            <iframe 
-              src={document.document_url}
-              className="w-full h-[600px] rounded-lg border"
-              title={document.document_name}
-            />
+            {/* Document Image Display */}
+            <div className="w-full h-[600px] rounded-lg border overflow-hidden bg-gray-50 flex items-center justify-center">
+              <img 
+                src={document.document_url}
+                alt={document.document_name}
+                className="max-w-full max-h-full object-contain"
+                onError={(e) => {
+                  // Fallback to iframe if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = `
+                      <iframe 
+                        src="${document.document_url}"
+                        class="w-full h-full rounded-lg border"
+                        title="${document.document_name}"
+                      ></iframe>
+                    `;
+                  }
+                }}
+              />
+            </div>
           </div>
           
           <div className="text-center text-sm text-gray-500">
-            <p>If the PDF doesn't display properly, you can download it using the button above.</p>
+            <p>If the document doesn't display properly, you can download it using the button above.</p>
           </div>
         </div>
       </DialogContent>
