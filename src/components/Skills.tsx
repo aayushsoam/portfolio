@@ -1,4 +1,3 @@
-
 import { useRef, useState } from 'react';
 import { useScroll, motion, useTransform } from 'framer-motion';
 import FadeInWhenVisible from './FadeInWhenVisible';
@@ -11,9 +10,7 @@ import { Code, Figma, FileType, Wind, Braces, LayoutTemplate, FileCode, Zap, Dow
 import { useWorkExperience } from "@/hooks/useWorkExperience";
 import WorkExperienceDocumentModal from './WorkExperienceDocumentModal';
 import type { Database } from '@/integrations/supabase/types';
-
 type WorkExperienceDocument = Database['public']['Tables']['work_experience_documents']['Row'];
-
 const skillCategories = [{
   title: "Development",
   skills: ["React", "Next.js", "TypeScript", "Node.js", "Tailwind CSS", "Three.js", "WebGL"]
@@ -24,7 +21,6 @@ const skillCategories = [{
   title: "Other",
   skills: ["Project Management", "SEO", "Performance Optimization", "Responsive Design", "Git"]
 }];
-
 const skillsData = [{
   name: "Figma",
   icon: <Figma className="w-6 h-6" />,
@@ -74,7 +70,6 @@ const skillsData = [{
   percentage: 88,
   projects: ["E-commerce", "Blog", "Corporate Site"]
 }];
-
 const scaleAnimation = {
   initial: {
     scale: 0.8,
@@ -95,44 +90,40 @@ const scaleAnimation = {
     }
   }
 };
-
 const Skills = () => {
   const container = useRef<HTMLElement>(null);
-  const { data: workExperience, isLoading: isWorkExperienceLoading, error: workExperienceError } = useWorkExperience();
-  
+  const {
+    data: workExperience,
+    isLoading: isWorkExperienceLoading,
+    error: workExperienceError
+  } = useWorkExperience();
   const {
     scrollYProgress
   } = useScroll({
     target: container,
     offset: ["start end", "end end"]
   });
-  
   const y = useTransform(scrollYProgress, [0, 1], [-100, 0]);
   const height = useTransform(scrollYProgress, [0, 0.9], [50, 0]);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   const [selectedDocument, setSelectedDocument] = useState<WorkExperienceDocument | null>(null);
   const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
-
   const handleDocumentClick = (document: WorkExperienceDocument) => {
     setSelectedDocument(document);
     setIsDocumentModalOpen(true);
   };
-
   const handleCloseDocumentModal = () => {
     setIsDocumentModalOpen(false);
     setSelectedDocument(null);
   };
-
   const handleDownloadDocument = (document: WorkExperienceDocument, event: React.MouseEvent) => {
     event.stopPropagation();
     window.open(document.document_url, '_blank');
   };
-  
-  return (
-    <>
+  return <>
       <motion.section ref={container} style={{
-        y
-      }} className="py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50 lg:py-[240px]">
+      y
+    }} className="py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-24 lg:px-32 xl:px-48 bg-slate-50 lg:py-[240px]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
             <div>
@@ -153,15 +144,15 @@ const Skills = () => {
               <TextReveal text="My skills and expertise in creative development." className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed mb-10" />
               
               <motion.p initial={{
-            opacity: 0
-          }} whileInView={{
-            opacity: 1
-          }} transition={{
-            duration: 0.5,
-            delay: 0.6
-          }} viewport={{
-            once: true
-          }} className="text-base sm:text-lg text-gray-500 mb-8">
+              opacity: 0
+            }} whileInView={{
+              opacity: 1
+            }} transition={{
+              duration: 0.5,
+              delay: 0.6
+            }} viewport={{
+              once: true
+            }} className="text-base sm:text-lg text-gray-500 mb-8">
                 As a developer with a design background, I bring a unique perspective to projects, creating 
                 visually appealing and functionally robust digital experiences.
               </motion.p>
@@ -217,78 +208,54 @@ const Skills = () => {
           <div className="border-t border-gray-200 pt-16 relative">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-light mb-12">Work Experience</h2>
             
-            {isWorkExperienceLoading ? (
-              <div className="text-center text-gray-500">Loading work experience...</div>
-            ) : workExperienceError ? (
-              <div className="text-center text-red-500">Error loading work experience</div>
-            ) : (
-              <div className="space-y-12">
-                {workExperience?.map((exp, index) => (
-                  <FadeInWhenVisible key={exp.id} delay={0.2 * index} className="border-l-2 border-gray-300 pl-8 relative">
+            {isWorkExperienceLoading ? <div className="text-center text-gray-500">Loading work experience...</div> : workExperienceError ? <div className="text-center text-red-500">Error loading work experience</div> : <div className="space-y-12">
+                {workExperience?.map((exp, index) => <FadeInWhenVisible key={exp.id} delay={0.2 * index} className="border-l-2 border-gray-300 pl-8 relative">
                     <div className="absolute w-4 h-4 rounded-full bg-black -left-[9px] top-0"></div>
                     <span className="text-sm text-gray-500 block mb-1">{exp.period}</span>
                     <h3 className="text-xl font-medium mb-1">{exp.position}</h3>
                     <h4 className="text-lg mb-3">{exp.company}</h4>
-                    {exp.description && (
-                      <p className="text-gray-600 mb-4">{exp.description}</p>
-                    )}
+                    {exp.description && <p className="text-gray-600 mb-4">{exp.description}</p>}
                     
-                    {exp.work_experience_documents && exp.work_experience_documents.length > 0 && (
-                      <div className="mt-4">
+                    {exp.work_experience_documents && exp.work_experience_documents.length > 0 && <div className="">
                         <h5 className="text-sm font-medium text-gray-700 mb-3">Related Documents:</h5>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {exp.work_experience_documents.slice(0, 6).map((doc) => (
-                            <div
-                              key={doc.id}
-                              onClick={() => handleDocumentClick(doc)}
-                              className="relative cursor-pointer group overflow-hidden"
-                              style={{
-                                height: '50px',
-                                width: '100px',
-                                border: 'solid 2px black',
-                                margin: '30px',
-                                padding: '10px',
-                                borderRadius: '10px'
-                              }}
-                            >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-[134px] border-black border-2 rounded-2xl">
+                          {exp.work_experience_documents.slice(0, 6).map(doc => <div key={doc.id} onClick={() => handleDocumentClick(doc)} style={{
+                    height: '50px',
+                    width: '100px',
+                    border: 'solid 2px black',
+                    margin: '30px',
+                    padding: '10px',
+                    borderRadius: '10px'
+                  }} className="relative cursor-pointer group overflow-hidden h-[70px] border-black-950 w-[130px] rounded-2xl bg-black/[0.08]">
                               {/* Background image from document URL */}
-                              <div 
-                                className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 group-hover:opacity-30 transition-opacity"
-                                style={{
-                                  backgroundImage: `url(${doc.document_url})`,
-                                  borderRadius: '8px'
-                                }}
-                              />
+                              <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 group-hover:opacity-30 transition-opacity" style={{
+                      backgroundImage: `url(${doc.document_url})`,
+                      borderRadius: '8px'
+                    }} />
                               
-                              <div className="relative z-10 flex items-center justify-between h-full">
+                              <div className="relative z-10 flex items-center justify-between h-full bg-white/[0.02] rounded-full">
                                 <div className="flex items-center gap-2 flex-1 min-w-0">
-                                  <FileText className="w-4 h-4 text-gray-600 flex-shrink-0" />
+                                  
                                   <span className="text-xs font-medium truncate text-gray-800">
                                     {doc.document_name}
                                   </span>
                                 </div>
-                                <button
-                                  onClick={(e) => handleDownloadDocument(doc, e)}
-                                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-200 rounded z-20"
-                                  title="Open PDF in new tab"
-                                >
+                                <button onClick={e => handleDownloadDocument(doc, e)} className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-200 rounded z-20" title="Open PDF in new tab">
                                   <Download className="w-3 h-3 text-gray-600" />
                                 </button>
                               </div>
                               
                               {/* Hover overlay */}
-                              <div className="absolute inset-0 bg-black bg-opacity-5 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg z-0"></div>
-                            </div>
-                          ))}
+                              <div className="absolute inset-0 bg-opacity-5 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg z-0 h-40 bg-black/10"></div>
+                            </div>)}
                         </div>
-                      </div>
-                    )}
-                  </FadeInWhenVisible>
-                ))}
-              </div>
-            )}
+                      </div>}
+                  </FadeInWhenVisible>)}
+              </div>}
             
-            <motion.div style={{ height }} className="relative mt-24">
+            <motion.div style={{
+            height
+          }} className="relative mt-24">
               <div className="absolute h-[1550%] w-[120%] left-[-10%] rounded-b-[50%] shadow-[0px_60px_50px_rgba(0,0,0,0.748)] z-[1] bg-white">
               </div>
             </motion.div>
@@ -296,13 +263,7 @@ const Skills = () => {
         </div>
       </motion.section>
 
-      <WorkExperienceDocumentModal 
-        document={selectedDocument}
-        isOpen={isDocumentModalOpen}
-        onClose={handleCloseDocumentModal}
-      />
-    </>
-  );
+      <WorkExperienceDocumentModal document={selectedDocument} isOpen={isDocumentModalOpen} onClose={handleCloseDocumentModal} />
+    </>;
 };
-
 export default Skills;
