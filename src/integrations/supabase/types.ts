@@ -134,6 +134,71 @@ export type Database = {
         }
         Relationships: []
       }
+      skill_projects: {
+        Row: {
+          created_at: string
+          display_order: number | null
+          id: string
+          project_name: string
+          skill_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          project_name: string
+          skill_id: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          project_name?: string
+          skill_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "skill_projects_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      skills: {
+        Row: {
+          color: string
+          created_at: string
+          display_order: number | null
+          icon_name: string
+          id: string
+          name: string
+          percentage: number
+          updated_at: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          display_order?: number | null
+          icon_name: string
+          id?: string
+          name: string
+          percentage?: number
+          updated_at?: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          display_order?: number | null
+          icon_name?: string
+          id?: string
+          name?: string
+          percentage?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sliding_images: {
         Row: {
           background_color: string | null

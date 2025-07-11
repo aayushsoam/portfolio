@@ -7,8 +7,10 @@ import { Progress } from "@/components/ui/progress";
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Code, Figma, FileType, Wind, Braces, LayoutTemplate, FileCode, Zap, Download, FileText } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { useWorkExperience } from "@/hooks/useWorkExperience";
+import { useSkills } from "@/hooks/useSkills";
+import { getIconComponent } from "@/utils/iconUtils";
 import WorkExperienceDocumentModal from './WorkExperienceDocumentModal';
 import type { Database } from '@/integrations/supabase/types';
 
@@ -23,56 +25,6 @@ const skillCategories = [{
 }, {
   title: "Other",
   skills: ["Project Management", "SEO", "Performance Optimization", "Responsive Design", "Git"]
-}];
-
-const skillsData = [{
-  name: "Figma",
-  icon: <Figma className="w-6 h-6" />,
-  color: "bg-purple-500",
-  percentage: 95,
-  projects: ["Brand Redesign", "E-commerce UI", "Dashboard"]
-}, {
-  name: "Python",
-  icon: <FileCode className="w-6 h-6" />,
-  color: "bg-blue-500",
-  percentage: 85,
-  projects: ["Data Analysis", "Web Scraper", "API"]
-}, {
-  name: "HTML 5",
-  icon: <FileType className="w-6 h-6" />,
-  color: "bg-orange-500",
-  percentage: 98,
-  projects: ["Portfolio Site", "Landing Pages", "Email Templates"]
-}, {
-  name: "CSS",
-  icon: <Wind className="w-6 h-6" />,
-  color: "bg-blue-400",
-  percentage: 92,
-  projects: ["Animations", "Responsive Layouts", "Design Systems"]
-}, {
-  name: "JavaScript",
-  icon: <Braces className="w-6 h-6" />,
-  color: "bg-yellow-400",
-  percentage: 90,
-  projects: ["Interactive Forms", "Dynamic Content", "API Integration"]
-}, {
-  name: "Framer",
-  icon: <Zap className="w-6 h-6" />,
-  color: "bg-pink-500",
-  percentage: 80,
-  projects: ["Micro-interactions", "Motion Design", "Prototypes"]
-}, {
-  name: "React",
-  icon: <Code className="w-6 h-6" />,
-  color: "bg-blue-600",
-  percentage: 95,
-  projects: ["SPA", "Component Library", "Dashboard"]
-}, {
-  name: "Next.js",
-  icon: <LayoutTemplate className="w-6 h-6" />,
-  color: "bg-black",
-  percentage: 88,
-  projects: ["E-commerce", "Blog", "Corporate Site"]
 }];
 
 const scaleAnimation = {
@@ -99,6 +51,7 @@ const scaleAnimation = {
 const Skills = () => {
   const container = useRef<HTMLElement>(null);
   const { data: workExperience, isLoading: isWorkExperienceLoading, error: workExperienceError } = useWorkExperience();
+  const { data: skillsData, isLoading: isSkillsLoading, error: skillsError } = useSkills();
   
   const {
     scrollYProgress
@@ -169,47 +122,60 @@ const Skills = () => {
             
             <div>
               <FadeInWhenVisible delay={0.4}>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
-                  {skillsData.map((skill, index) => <HoverCard key={index} openDelay={100} closeDelay={100}>
-                      <HoverCardTrigger asChild>
-                        <Card className={`cursor-pointer hover:shadow-md transition-all duration-300 group h-24 sm:h-28 flex items-center justify-center ${hoveredSkill === skill.name ? 'ring-2 ring-black' : ''}`} onMouseEnter={() => setHoveredSkill(skill.name)} onMouseLeave={() => setHoveredSkill(null)}>
-                          <CardContent className="p-0 flex flex-col items-center justify-center w-full h-full">
-                            <div className={`${skill.color} p-2 rounded-full text-white mb-2 group-hover:scale-110 transition-transform duration-300`}>
-                              {skill.icon}
-                            </div>
-                            <p className="text-xs sm:text-sm font-medium">{skill.name}</p>
-                          </CardContent>
-                        </Card>
-                      </HoverCardTrigger>
-                      <HoverCardContent side="bottom" align="center" className="w-72 p-4 shadow-lg bg-white border-0" sideOffset={10}>
-                        <motion.div initial="initial" animate="hover" exit="exit" variants={scaleAnimation}>
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className={`${skill.color} p-1.5 rounded-md text-white`}>
-                              {skill.icon}
-                            </div>
-                            <h4 className="text-lg font-medium">{skill.name}</h4>
-                          </div>
-                          
-                          <div className="mb-4">
-                            <div className="flex justify-between mb-1">
-                              <span className="text-sm">Proficiency</span>
-                              <span className="text-sm font-semibold">{skill.percentage}%</span>
-                            </div>
-                            <Progress value={skill.percentage} className="h-2" />
-                          </div>
-                          
-                          <div>
-                            <p className="text-sm mb-2 font-medium">Recent Projects:</p>
-                            <div className="flex flex-wrap gap-2">
-                              {skill.projects.map((project, idx) => <Badge key={idx} variant="outline" className="bg-gray-100">
-                                  {project}
-                                </Badge>)}
-                            </div>
-                          </div>
-                        </motion.div>
-                      </HoverCardContent>
-                    </HoverCard>)}
-                </div>
+                {isSkillsLoading ? (
+                  <div className="text-center text-gray-500">Loading skills...</div>
+                ) : skillsError ? (
+                  <div className="text-center text-red-500">Error loading skills</div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
+                    {skillsData?.map((skill, index) => {
+                      const IconComponent = getIconComponent(skill.icon_name);
+                      return (
+                        <HoverCard key={skill.id} openDelay={100} closeDelay={100}>
+                          <HoverCardTrigger asChild>
+                            <Card className={`cursor-pointer hover:shadow-md transition-all duration-300 group h-24 sm:h-28 flex items-center justify-center ${hoveredSkill === skill.name ? 'ring-2 ring-black' : ''}`} onMouseEnter={() => setHoveredSkill(skill.name)} onMouseLeave={() => setHoveredSkill(null)}>
+                              <CardContent className="p-0 flex flex-col items-center justify-center w-full h-full">
+                                <div className={`${skill.color} p-2 rounded-full text-white mb-2 group-hover:scale-110 transition-transform duration-300`}>
+                                  <IconComponent className="w-6 h-6" />
+                                </div>
+                                <p className="text-xs sm:text-sm font-medium">{skill.name}</p>
+                              </CardContent>
+                            </Card>
+                          </HoverCardTrigger>
+                          <HoverCardContent side="bottom" align="center" className="w-72 p-4 shadow-lg bg-white border-0" sideOffset={10}>
+                            <motion.div initial="initial" animate="hover" exit="exit" variants={scaleAnimation}>
+                              <div className="flex items-center gap-3 mb-3">
+                                <div className={`${skill.color} p-1.5 rounded-md text-white`}>
+                                  <IconComponent className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-lg font-medium">{skill.name}</h4>
+                              </div>
+                              
+                              <div className="mb-4">
+                                <div className="flex justify-between mb-1">
+                                  <span className="text-sm">Proficiency</span>
+                                  <span className="text-sm font-semibold">{skill.percentage}%</span>
+                                </div>
+                                <Progress value={skill.percentage} className="h-2" />
+                              </div>
+                              
+                              <div>
+                                <p className="text-sm mb-2 font-medium">Recent Projects:</p>
+                                <div className="flex flex-wrap gap-2">
+                                  {skill.skill_projects?.map((project, idx) => (
+                                    <Badge key={project.id} variant="outline" className="bg-gray-100">
+                                      {project.project_name}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            </motion.div>
+                          </HoverCardContent>
+                        </HoverCard>
+                      );
+                    })}
+                  </div>
+                )}
               </FadeInWhenVisible>
             </div>
           </div>
