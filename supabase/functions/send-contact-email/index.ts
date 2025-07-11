@@ -29,9 +29,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Received contact form submission:", { name, email, organization, services });
 
-    // Send email using your custom domain
+    // Send email to your inbox with improved formatting and delivery
     const emailResponse = await resend.emails.send({
-      from: "Contact Form <noreply@aayushsoam.tech>",
+      from: "Portfolio Contact <onboarding@resend.dev>",
       to: ["thakurrajeevsoam@gmail.com"],
       reply_to: email, // This allows you to reply directly to the sender
       subject: `🔥 New Contact Form Message from ${name} - ${organization}`,
@@ -96,7 +96,7 @@ const handler = async (req: Request): Promise<Response> => {
               })} IST
             </p>
             <p style="color: #6c757d; font-size: 12px; margin: 10px 0 0 0; font-style: italic;">
-              This email was sent from aayushsoam.tech contact form
+              This email was sent from your portfolio contact form
             </p>
           </div>
         </body>
@@ -116,7 +116,7 @@ ${message}
 
 ---
 Received on: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
-This email was sent from your aayushsoam.tech contact form.
+This email was sent from your portfolio contact form.
       `
     });
 
@@ -140,7 +140,7 @@ This email was sent from your aayushsoam.tech contact form.
     return new Response(JSON.stringify({ 
       success: true, 
       emailId: emailResponse.data?.id,
-      message: "Email sent successfully from aayushsoam.tech"
+      message: "Email sent successfully to thakurrajeevsoam@gmail.com"
     }), {
       status: 200,
       headers: {
