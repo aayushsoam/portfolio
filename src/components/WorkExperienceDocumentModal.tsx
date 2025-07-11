@@ -51,7 +51,7 @@ const WorkExperienceDocumentModal = ({
           </div>
           
           <div className="text-center text-sm text-gray-500">
-            <p>If the document doesn't display properly, you can download it using the button above.</p>
+            
           </div>
         </div>
       </DialogContent>
