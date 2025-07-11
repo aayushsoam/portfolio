@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import Preloader from "../components/Preloader";
 import Navbar from "../components/Navbar";
@@ -11,7 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import FadeInWhenVisible from "../components/FadeInWhenVisible";
-import { ArrowUpRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters."
@@ -29,9 +31,12 @@ const formSchema = z.object({
     message: "Message must be at least 10 characters."
   })
 });
+
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
+
   useEffect(() => {
     // Allow the preloader animation to play
     const timer = setTimeout(() => {
@@ -61,6 +66,7 @@ const Contact = () => {
       clearInterval(timeInterval);
     };
   }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -71,12 +77,33 @@ const Contact = () => {
       message: ""
     }
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // In a real application, you would send the form data to a server
-    console.log(values);
-    toast.success("Your message has been sent!");
-    form.reset();
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+    console.log("Submitting form with values:", values);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: values
+      });
+
+      if (error) {
+        console.error("Error calling edge function:", error);
+        toast.error("Failed to send message. Please try again.");
+        return;
+      }
+
+      console.log("Email sent successfully:", data);
+      toast.success("Your message has been sent successfully!");
+      form.reset();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
+
   return <>
       <AnimatePresence>
         {isLoading && <Preloader />}
@@ -195,8 +222,12 @@ const Contact = () => {
                       </div>
                       
                       <div className="border-t border-gray-800 pt-8 flex justify-center">
-                        <Button type="submit" className="mt-4 bg-[#4758EE] hover:bg-[#3A48D0] text-white rounded-full px-14 py-8 h-auto text-lg font-normal">
-                          Send it!
+                        <Button 
+                          type="submit" 
+                          disabled={isSubmitting}
+                          className="mt-4 bg-[#4758EE] hover:bg-[#3A48D0] text-white rounded-full px-14 py-8 h-auto text-lg font-normal disabled:opacity-50"
+                        >
+                          {isSubmitting ? "Sending..." : "Send it!"}
                         </Button>
                       </div>
                     </form>
@@ -266,4 +297,5 @@ const Contact = () => {
         </main>}
     </>;
 };
+
 export default Contact;
